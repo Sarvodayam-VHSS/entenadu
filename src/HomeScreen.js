@@ -24,15 +24,15 @@ const HomeScreen = () => {
   ];
 
   const gridItems = [
-    { label: 'Home', icon: 'home', value: 'HomeServ' },
-    { label: 'Knowledge', icon: 'book', value: 'Knowledge' },
-    { label: 'Professional', icon: 'briefcase', value: 'Professional' },
-    { label: 'Aware', icon: 'info', value: 'Aware' },
-    { label: 'Counselling', icon: 'phone-square', value: 'Counselling' },
-    { label: 'Vehicle', icon: 'car', value: 'Vehicle' },
-    { label: 'Agri/Vet', icon: 'leaf', value: 'Agric' },
-    { label: 'Shopping', icon: 'shopping-cart', value: 'Shopping' },
-    { label: 'Others', icon: 'commenting', value: 'Others' },
+    { label: 'Home', icon: 'home', value: 'homeServ' },
+    { label: 'Electronics', icon: 'bolt', value: 'electronics' },
+    { label: 'Vehicle', icon: 'car', value: 'vehicle' },
+    { label: 'Professional', icon: 'briefcase', value: 'professional' },
+    { label: 'Aware', icon: 'info', value: 'aware' },
+    { label: 'Counselling', icon: 'phone-square', value: 'counselling' },
+    { label: 'Agri/Vet', icon: 'leaf', value: 'agric' },
+    { label: 'Shopping', icon: 'shopping-cart', value: 'shopping' },
+    { label: 'Others', icon: 'commenting', value: 'others' },
   ];
 
   const handleIconPress = () => {
@@ -70,7 +70,14 @@ const HomeScreen = () => {
   );
 
   const renderGridItem = ({ item }) => (
-    <TouchableOpacity style={styles.gridItem} onPress={() => handleSelect(item)}>
+    <TouchableOpacity
+      style={[
+        styles.gridItem,
+        item.label !== 'Home' && item.label !== 'Electronics' && item.label !== 'Vehicle' && styles.generalGridItem,
+        item.label === 'Professional' && styles.professionalGridItem,
+      ]}
+      onPress={() => handleSelect(item)}
+    >
       <Icon name={item.icon} size={30} color="#000" style={styles.gridIcon} />
       <Text style={styles.gridLabel}>{item.label}</Text>
     </TouchableOpacity>
@@ -135,6 +142,9 @@ const styles = StyleSheet.create({
     padding: 10,
     borderBottomWidth: 1,
     borderBottomColor: '#ccc',
+  },
+  generalGridItem: {
+    backgroundColor: 'rgba(255, 0, 0, 0.2)', // Light red tint for grids other than Home, Electronics, and Vehicle
   },
   grid: {
     marginTop: 10,

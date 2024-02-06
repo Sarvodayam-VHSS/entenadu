@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 
-const Knowledge = () => {
+const Electronics = () => {
   // Knowledge component logic here
 
   return (
@@ -12,4 +12,4 @@ const Knowledge = () => {
   );
 };
 
-export default Knowledge;
+export default Electronics;
