@@ -1,22 +1,7 @@
-// HomeScreen.js
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, FlatList } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-
-// Import the ShoppingScreen component
-import ShoppingScreen from './Shopping'; // Adjust the path accordingly
-
-const VehicleScreen = () => {
-  // Add your Vehicle screen content here
-  return (
-    <View style={styles.container}>
-      <Text>Vehicle Screen</Text>
-      {/* Add your Vehicle screen content here */}
-    </View>
-  );
-};
 
 const HomeScreen = () => {
   const [isDropdownVisible, setDropdownVisible] = useState(false);
@@ -29,19 +14,19 @@ const HomeScreen = () => {
     { label: 'Family Budget', value: 'option3' },
     { label: 'About Us', value: 'option4' },
     { label: 'Contact', value: 'option5' },
-    { label: 'Signout', value: 'option6' },
+    { label: 'Signout', value: 'option6' }
   ];
 
   const gridItems = [
-    { label: 'Home', icon: 'home', value: 'HomeServ' },
-    { label: 'Knowledge', icon: 'book', value: 'Knowledge' },
-    { label: 'Professional', icon: 'briefcase', value: 'Professional' },
-    { label: 'Aware', icon: 'info', value: 'Aware' },
-    { label: 'Counselling', icon: 'phone-square', value: 'Counselling' },
-    { label: 'Vehicle', icon: 'car', value: 'Vehicle' },
-    { label: 'Agri/Vet', icon: 'leaf', value: 'Agric' },
-    { label: 'Shopping', icon: 'shopping-cart', value: 'Shopping' },
-    { label: 'Others', icon: 'commenting', value: 'Others' },
+    { label: 'Home', icon: 'home', value: 'HomeServ' }, // Changed icon to 'home'
+    { label: 'Knowledge', icon: 'book', value: 'Knowledge' }, // Changed icon to 'book'
+    { label: 'Professional', icon: 'briefcase', value: 'Professional' }, // Changed icon to 'briefcase'
+    { label: 'Aware', icon: 'info', value: 'Aware' }, // Changed icon to 'info'
+    { label: 'Counselling', icon: 'phone-square', value: 'Counselling' }, // Changed icon to 'phone-square'
+    { label: 'Vehicle', icon: 'car', value: 'Vehicle' }, // Changed icon to 'car'
+    { label: 'Agri/Vet', icon: 'leaf', value: 'Agric' }, // Changed icon to 'leaf'
+    { label: 'Shopping', icon: 'shopping-cart', value: 'Shopping' }, // Changed icon to 'shopping-cart'
+    { label: 'Others', icon: 'commenting', value: 'Others' }, // Changed icon to 'commenting'
   ];
 
   const handleIconPress = () => {
@@ -52,6 +37,7 @@ const HomeScreen = () => {
     setSelectedOption(item.label);
     setDropdownVisible(false);
 
+    // Perform navigation based on the selected option
     switch (item.value) {
       case 'option1':
         navigation.navigate('ToDoList');
@@ -59,32 +45,13 @@ const HomeScreen = () => {
       case 'option2':
         navigation.navigate('Reminders');
         break;
-      case 'option4':
-        navigation.navigate('Aboutus');
-        break;
-      case 'option5':
-        navigation.navigate('Contact');
-        break;
       case 'option6':
+        // Sign out logic
+        // For simplicity, you can navigate back to the login screen
         navigation.reset({
           index: 0,
           routes: [{ name: 'Login' }],
         });
-        break;
-      case 'Agric':
-        navigation.navigate('Agric');
-        break;
-      case 'Others':
-        navigation.navigate('Others');
-        break;
-      case 'Professional':
-        navigation.navigate('Professional');
-        break;
-      case 'Vehicle':
-        navigation.navigate('Vehicle');
-        break;
-      case 'Shopping':
-        navigation.navigate('Shopping'); // Navigate to the Shopping.js page
         break;
       default:
         navigation.navigate(item.value);
