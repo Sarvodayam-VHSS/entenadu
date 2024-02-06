@@ -9,7 +9,7 @@ import HomeServ from './src/service_pages/HomeServ';
 import Agric from './src/service_pages/Agric';
 import Aware from './src/service_pages/Aware';
 import Counselling from './src/service_pages/Counselling';
-import Knowledge from './src/service_pages/Knowledge';
+import Electronics from './src/service_pages/Electronics';
 import Others from './src/service_pages/Others';
 import Professional from './src/service_pages/Professional';
 import Shopping from './src/service_pages/Shopping';
@@ -48,20 +48,20 @@ const App = () => {
           <>
             <Stack.Screen name="Login" component={LoginScreen} />
             <Stack.Screen name="Home" component={HomeScreen} />
-            <Stack.Screen name="HomeServ" component={HomeServ} />
-            <Stack.Screen name="Agric" component={Agric} />
-            <Stack.Screen name="Aware" component={Aware} />
-            <Stack.Screen name="Counselling" component={Counselling} />
-            <Stack.Screen name="Knowledge" component={Knowledge} />
-            <Stack.Screen name="Others" component={Others} />
-            <Stack.Screen name="Professional" component={Professional} />
-            <Stack.Screen name="Shopping" component={Shopping} />
-            <Stack.Screen name="Vehicle" component={Vehicle} />
-            <Stack.Screen name="Aboutus" component={Aboutus} />
-            <Stack.Screen name="Budget" component={Budget} />
-            <Stack.Screen name="Contact" component={Contact} />
-            <Stack.Screen name="Reminders" component={Reminders} />
-            <Stack.Screen name="ToDoList" component={ToDoList} />
+            <Stack.Screen name="homeServ" component={HomeServ} />
+            <Stack.Screen name="agric" component={Agric} />
+            <Stack.Screen name="aware" component={Aware} />
+            <Stack.Screen name="counselling" component={Counselling} />
+            <Stack.Screen name="electronics" component={Electronics} />
+            <Stack.Screen name="others" component={Others} />
+            <Stack.Screen name="professional" component={Professional} />
+            <Stack.Screen name="shopping" component={Shopping} />
+            <Stack.Screen name="vehicle" component={Vehicle} />
+            <Stack.Screen name="aboutus" component={Aboutus} />
+            <Stack.Screen name="budget" component={Budget} />
+            <Stack.Screen name="contact" component={Contact} />
+            <Stack.Screen name="reminders" component={Reminders} />
+            <Stack.Screen name="toDoList" component={ToDoList} />
             
 
           </>
