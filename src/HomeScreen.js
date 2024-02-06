@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, FlatList } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, FlatList, ImageBackground } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/native';
-
 const HomeScreen = () => {
   const [isDropdownVisible, setDropdownVisible] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
   const navigation = useNavigation();
+
 
   const dropdownItems = [
     { label: 'To do list', value: 'option1' },
@@ -37,27 +37,39 @@ const HomeScreen = () => {
     setSelectedOption(item.label);
     setDropdownVisible(false);
 
-    // Perform navigation based on the selected option
     switch (item.value) {
-      case 'option1':
-        navigation.navigate('ToDoList');
+      case 'HomeServ':
+        navigation.navigate('HomeServ');
         break;
-      case 'option2':
-        navigation.navigate('Reminders');
+      case 'Knowledge':
+        navigation.navigate('Knowledge');
         break;
-      case 'option6':
-        // Sign out logic
-        // For simplicity, you can navigate back to the login screen
-        navigation.reset({
-          index: 0,
-          routes: [{ name: 'Login' }],
-        });
+      case 'Professional':
+        navigation.navigate('Professional');
+        break;
+      case 'Aware':
+        navigation.navigate('Aware');
+        break;
+      case 'Counselling':
+        navigation.navigate('Counselling');
+        break;
+      case 'Vehicle':
+        navigation.navigate('Vehicle');
+        break;
+      case 'Agric':
+        navigation.navigate('Agric');
+        break;
+      case 'Shopping':
+        navigation.navigate('Shopping');
+        break;
+      case 'Others':
+        navigation.navigate('Others');
         break;
       default:
-        navigation.navigate(item.value);
         break;
     }
   };
+
 
   const closeDropdown = () => {
     setDropdownVisible(false);
@@ -71,7 +83,7 @@ const HomeScreen = () => {
           style={styles.dropdownItem}
           onPress={() => handleSelect(item)}
         >
-          <Text>{item.label}</Text>
+          <Text style={styles.dropdownText}>{item.label}</Text>
         </TouchableOpacity>
       ))}
     </View>
@@ -85,11 +97,15 @@ const HomeScreen = () => {
   );
 
   return (
-    <TouchableWithoutFeedback onPress={closeDropdown}>
+    <ImageBackground
+      source={require('../assets/bg.jpg')}
+      style={styles.backgroundImage}
+      resizeMode="cover"
+    >
       <View style={styles.container}>
         <View style={styles.header}>
           <TouchableOpacity onPress={handleIconPress}>
-            <Icon name="caret-down" size={30} color="#000" style={styles.icon} />
+            <Icon name={isDropdownVisible ? "caret-up" : "caret-down"} size={30} color="#fff" style={styles.icon} />
           </TouchableOpacity>
           <Text style={styles.userName}>John Doe</Text>
         </View>
@@ -104,11 +120,16 @@ const HomeScreen = () => {
           style={styles.grid}
         />
       </View>
-    </TouchableWithoutFeedback>
+    </ImageBackground>
   );
 };
 
 const styles = StyleSheet.create({
+  backgroundImage: {
+    flex: 1,
+    width: '100%',
+    height: '100%',
+  },
   container: {
     flex: 1,
     padding: 20,
@@ -126,12 +147,13 @@ const styles = StyleSheet.create({
   userName: {
     fontSize: 16,
     fontWeight: 'bold',
+    color: '#fff',
   },
   dropdown: {
     position: 'absolute',
     top: 60,
     left: 10,
-    backgroundColor: 'white',
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
     borderRadius: 5,
     elevation: 3,
     zIndex: 1,
@@ -140,6 +162,9 @@ const styles = StyleSheet.create({
     padding: 10,
     borderBottomWidth: 1,
     borderBottomColor: '#ccc',
+  },
+  dropdownText: {
+    fontSize: 16,
   },
   grid: {
     marginTop: 10,
@@ -151,14 +176,19 @@ const styles = StyleSheet.create({
     padding: 10,
     borderWidth: 1,
     borderColor: '#ccc',
-    borderRadius: 5,
+    borderRadius: 10,
     margin: 5,
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
   },
   gridIcon: {
-    marginBottom: 5,
+    marginBottom: 10,
+    fontSize: 30,
+    color: '#000',
   },
   gridLabel: {
-    fontSize: 12,
+    fontSize: 14,
+    color: '#000',
+    textAlign: 'center',
   },
 });
 

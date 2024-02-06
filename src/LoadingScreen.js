@@ -1,25 +1,30 @@
-// LoadingScreen.js
 import React, { useEffect, useState } from 'react';
 import { View, Text, Image, ActivityIndicator, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import axios from 'axios';
 
 const LoadingScreen = () => {
   const navigation = useNavigation();
   const [isLoading, setIsLoading] = useState(true);
+  const [quote, setQuote] = useState('');
 
   useEffect(() => {
-    // Simulate loading tasks (replace with your actual loading logic)
-    const loadingTimeout = setTimeout(() => {
-      // Navigate to the 'Thought' screen after loading.
-      // Replace 'Thought' with the name of your Thought screen.
-      navigation.navigate('Thought');
-    }, 3000); // Simulating a 3-second loading time
-
-    // Clean up the timeout to avoid memory leaks
-    return () => {
-      clearTimeout(loadingTimeout);
-      setIsLoading(false);
-    };
+    // Fetch a random quote from the Quotable API
+    axios.get('https://api.quotable.io/random')
+      .then((response) => {
+        const { content, author } = response.data;
+        const formattedQuote = `"${content}" - ${author}`;
+        setQuote(formattedQuote);
+      })
+      .catch((error) => {
+        console.error('Error fetching quote:', error);
+      })
+      .finally(() => {
+        setIsLoading(false);
+        // Navigate to the 'Login' screen after loading.
+        // Replace 'Login' with the name of your Login screen.
+        navigation.navigate('Login');
+      });
   }, [navigation]);
 
   return (
@@ -32,11 +37,13 @@ const LoadingScreen = () => {
           resizeMode="contain"
         />
         <View style={styles.loadingContainer}>
-          {isLoading && (
+          {isLoading ? (
             <>
               <ActivityIndicator size="large" color="#0000ff" />
               <Text style={styles.loadingText}>Loading...</Text>
             </>
+          ) : (
+            <Text style={styles.quoteText}>{quote}</Text>
           )}
         </View>
         <Text style={styles.poweredByText}>Powered by Sarvodayam VHSS</Text>
@@ -73,6 +80,11 @@ const styles = StyleSheet.create({
   loadingText: {
     marginTop: 10,
     fontSize: 16,
+  },
+  quoteText: {
+    marginTop: 20, // Add marginTop to create a gap
+    fontSize: 18,
+    textAlign: 'center',
   },
   poweredByText: {
     fontSize: 12,
