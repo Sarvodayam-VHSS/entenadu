@@ -4,13 +4,10 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
-  TouchableWithoutFeedback,
   FlatList,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/native';
-
-
 
 const HomeScreen = () => {
   const [isDropdownVisible, setDropdownVisible] = useState(false);
@@ -34,7 +31,7 @@ const HomeScreen = () => {
     { label: 'Counselling', icon: 'phone-square', value: 'Counselling' },
     { label: 'Vehicle', icon: 'car', value: 'Vehicle' },
     { label: 'Agri/Vet', icon: 'leaf', value: 'Agric' },
-    { label: 'Shopping', icon: 'shopping-cart', value: 'Shopping' }, // Navigate to the Shopping.js page
+    { label: 'Shopping', icon: 'shopping-cart', value: 'Shopping' },
     { label: 'Others', icon: 'commenting', value: 'Others' },
   ];
 
@@ -46,51 +43,16 @@ const HomeScreen = () => {
     setSelectedOption(item.label);
     setDropdownVisible(false);
 
-    switch (item.value) {
-      case 'ToDoList':
-        navigation.navigate('ToDoList'); // Navigate to the ToDoList component
-        break;
-      case 'Reminders':
-        navigation.navigate('Reminders'); // Navigate to the Reminders component
-        break;
-      case 'Budget':
-        navigation.navigate('Budget'); // Navigate to the Budget component
-        break;
-      case 'Aboutus':
-        navigation.navigate('Aboutus'); // Navigate to the Aboutus component
-        break;
-      case 'Contact':
-        navigation.navigate('Contact'); // Navigate to the Contact component
-        break;
-      case 'Login':
-        navigation.reset({
-          index: 0,
-          routes: [{ name: 'Login' }], // Reset the navigation stack to Login screen
-        });
-        break;
-      case 'Agric':
-        navigation.navigate('Agric');
-        break;
-      case 'Others':
-        navigation.navigate('Others');
-        break;
-      case 'Professional':
-        navigation.navigate('Professional');
-        break;
-      case 'Vehicle':
-        navigation.navigate('Vehicle'); // Navigate to the Vehicle component
-        break;
-      case 'Shopping':
-        navigation.navigate('Shopping'); // Navigate to the ShoppingScreen component
-        break;
-      default:
-        navigation.navigate(item.value);
-        break;
+    if (item.value === 'Login') {
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'Login' }],
+      });
+    } else if (item.value === 'Shopping') {
+      navigation.navigate('Shopping');
+    } else {
+      navigation.navigate(item.value);
     }
-  };
-
-  const closeDropdown = () => {
-    setDropdownVisible(false);
   };
 
   const renderDropdown = () => (
@@ -115,31 +77,29 @@ const HomeScreen = () => {
   );
 
   return (
-    <TouchableWithoutFeedback onPress={closeDropdown}>
-      <View style={styles.container}>
-        <View style={styles.header}>
-          <TouchableOpacity onPress={handleIconPress}>
-            <Icon
-              name={isDropdownVisible ? 'caret-up' : 'caret-down'}
-              size={30}
-              color="#000"
-              style={styles.icon}
-            />
-          </TouchableOpacity>
-          <Text style={styles.userName}>Username</Text>
-        </View>
-
-        {isDropdownVisible && renderDropdown()}
-
-        <FlatList
-          data={gridItems}
-          renderItem={renderGridItem}
-          keyExtractor={(item, index) => index.toString()}
-          numColumns={3}
-          style={styles.grid}
-        />
+    <View style={styles.container}>
+      <View style={styles.header}>
+        <TouchableOpacity onPress={handleIconPress}>
+          <Icon
+            name={isDropdownVisible ? 'caret-up' : 'caret-down'}
+            size={30}
+            color="#000"
+            style={styles.icon}
+          />
+        </TouchableOpacity>
+        <Text style={styles.userName}>Username</Text>
       </View>
-    </TouchableWithoutFeedback>
+
+      {isDropdownVisible && renderDropdown()}
+
+      <FlatList
+        data={gridItems}
+        renderItem={renderGridItem}
+        keyExtractor={(item, index) => index.toString()}
+        numColumns={3}
+        style={styles.grid}
+      />
+    </View>
   );
 };
 
