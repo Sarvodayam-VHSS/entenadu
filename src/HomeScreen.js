@@ -1,32 +1,41 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, FlatList, ImageBackground } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  FlatList,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/native';
+
+
+
 const HomeScreen = () => {
   const [isDropdownVisible, setDropdownVisible] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
   const navigation = useNavigation();
 
-
   const dropdownItems = [
-    { label: 'To do list', value: 'option1' },
-    { label: 'Reminders', value: 'option2' },
-    { label: 'Family Budget', value: 'option3' },
-    { label: 'About Us', value: 'option4' },
-    { label: 'Contact', value: 'option5' },
-    { label: 'Signout', value: 'option6' }
+    { label: 'To-Do List', value: 'ToDoList' },
+    { label: 'Reminders', value: 'Reminders' },
+    { label: 'Family Budget', value: 'Budget' },
+    { label: 'About Us', value: 'Aboutus' },
+    { label: 'Contact', value: 'Contact' },
+    { label: 'Signout', value: 'Login' }
   ];
 
   const gridItems = [
-    { label: 'Home', icon: 'home', value: 'HomeServ' }, // Changed icon to 'home'
-    { label: 'Knowledge', icon: 'book', value: 'Knowledge' }, // Changed icon to 'book'
-    { label: 'Professional', icon: 'briefcase', value: 'Professional' }, // Changed icon to 'briefcase'
-    { label: 'Aware', icon: 'info', value: 'Aware' }, // Changed icon to 'info'
-    { label: 'Counselling', icon: 'phone-square', value: 'Counselling' }, // Changed icon to 'phone-square'
-    { label: 'Vehicle', icon: 'car', value: 'Vehicle' }, // Changed icon to 'car'
-    { label: 'Agri/Vet', icon: 'leaf', value: 'Agric' }, // Changed icon to 'leaf'
-    { label: 'Shopping', icon: 'shopping-cart', value: 'Shopping' }, // Changed icon to 'shopping-cart'
-    { label: 'Others', icon: 'commenting', value: 'Others' }, // Changed icon to 'commenting'
+    { label: 'Home', icon: 'home', value: 'HomeServ' },
+    { label: 'Knowledge', icon: 'book', value: 'Knowledge' },
+    { label: 'Professional', icon: 'briefcase', value: 'Professional' },
+    { label: 'Aware', icon: 'info', value: 'Aware' },
+    { label: 'Counselling', icon: 'phone-square', value: 'Counselling' },
+    { label: 'Vehicle', icon: 'car', value: 'Vehicle' },
+    { label: 'Agri/Vet', icon: 'leaf', value: 'Agric' },
+    { label: 'Shopping', icon: 'shopping-cart', value: 'Shopping' }, // Navigate to the Shopping.js page
+    { label: 'Others', icon: 'commenting', value: 'Others' },
   ];
 
   const handleIconPress = () => {
@@ -38,38 +47,47 @@ const HomeScreen = () => {
     setDropdownVisible(false);
 
     switch (item.value) {
-      case 'HomeServ':
-        navigation.navigate('HomeServ');
+      case 'ToDoList':
+        navigation.navigate('ToDoList'); // Navigate to the ToDoList component
         break;
-      case 'Knowledge':
-        navigation.navigate('Knowledge');
+      case 'Reminders':
+        navigation.navigate('Reminders'); // Navigate to the Reminders component
         break;
-      case 'Professional':
-        navigation.navigate('Professional');
+      case 'Budget':
+        navigation.navigate('Budget'); // Navigate to the Budget component
         break;
-      case 'Aware':
-        navigation.navigate('Aware');
+      case 'Aboutus':
+        navigation.navigate('Aboutus'); // Navigate to the Aboutus component
         break;
-      case 'Counselling':
-        navigation.navigate('Counselling');
+      case 'Contact':
+        navigation.navigate('Contact'); // Navigate to the Contact component
         break;
-      case 'Vehicle':
-        navigation.navigate('Vehicle');
+      case 'Login':
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'Login' }], // Reset the navigation stack to Login screen
+        });
         break;
       case 'Agric':
         navigation.navigate('Agric');
         break;
-      case 'Shopping':
-        navigation.navigate('Shopping');
-        break;
       case 'Others':
         navigation.navigate('Others');
         break;
+      case 'Professional':
+        navigation.navigate('Professional');
+        break;
+      case 'Vehicle':
+        navigation.navigate('Vehicle'); // Navigate to the Vehicle component
+        break;
+      case 'Shopping':
+        navigation.navigate('Shopping'); // Navigate to the ShoppingScreen component
+        break;
       default:
+        navigation.navigate(item.value);
         break;
     }
   };
-
 
   const closeDropdown = () => {
     setDropdownVisible(false);
@@ -83,7 +101,7 @@ const HomeScreen = () => {
           style={styles.dropdownItem}
           onPress={() => handleSelect(item)}
         >
-          <Text style={styles.dropdownText}>{item.label}</Text>
+          <Text>{item.label}</Text>
         </TouchableOpacity>
       ))}
     </View>
@@ -97,17 +115,18 @@ const HomeScreen = () => {
   );
 
   return (
-    <ImageBackground
-      source={require('../assets/bg.jpg')}
-      style={styles.backgroundImage}
-      resizeMode="cover"
-    >
+    <TouchableWithoutFeedback onPress={closeDropdown}>
       <View style={styles.container}>
         <View style={styles.header}>
           <TouchableOpacity onPress={handleIconPress}>
-            <Icon name={isDropdownVisible ? "caret-up" : "caret-down"} size={30} color="#fff" style={styles.icon} />
+            <Icon
+              name={isDropdownVisible ? 'caret-up' : 'caret-down'}
+              size={30}
+              color="#000"
+              style={styles.icon}
+            />
           </TouchableOpacity>
-          <Text style={styles.userName}>John Doe</Text>
+          <Text style={styles.userName}>Username</Text>
         </View>
 
         {isDropdownVisible && renderDropdown()}
@@ -120,16 +139,11 @@ const HomeScreen = () => {
           style={styles.grid}
         />
       </View>
-    </ImageBackground>
+    </TouchableWithoutFeedback>
   );
 };
 
 const styles = StyleSheet.create({
-  backgroundImage: {
-    flex: 1,
-    width: '100%',
-    height: '100%',
-  },
   container: {
     flex: 1,
     padding: 20,
@@ -147,13 +161,12 @@ const styles = StyleSheet.create({
   userName: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#fff',
   },
   dropdown: {
     position: 'absolute',
     top: 60,
     left: 10,
-    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    backgroundColor: 'white',
     borderRadius: 5,
     elevation: 3,
     zIndex: 1,
@@ -162,9 +175,6 @@ const styles = StyleSheet.create({
     padding: 10,
     borderBottomWidth: 1,
     borderBottomColor: '#ccc',
-  },
-  dropdownText: {
-    fontSize: 16,
   },
   grid: {
     marginTop: 10,
@@ -176,19 +186,14 @@ const styles = StyleSheet.create({
     padding: 10,
     borderWidth: 1,
     borderColor: '#ccc',
-    borderRadius: 10,
+    borderRadius: 5,
     margin: 5,
-    backgroundColor: 'rgba(255, 255, 255, 0.9)',
   },
   gridIcon: {
-    marginBottom: 10,
-    fontSize: 30,
-    color: '#000',
+    marginBottom: 5,
   },
   gridLabel: {
-    fontSize: 14,
-    color: '#000',
-    textAlign: 'center',
+    fontSize: 12,
   },
 });
 
