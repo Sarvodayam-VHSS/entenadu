@@ -15,6 +15,12 @@ import Professional from './src/service_pages/Professional';
 import Shopping from './src/service_pages/Shopping';
 import Vehicle from './src/service_pages/Vehicle';
 
+import Aboutus from './src/features/Aboutus';
+import Budget from './src/features/Budget';
+import Contact from './src/features/Contact';
+import Reminders from './src/features/Reminders';
+import ToDoList from './src/features/ToDoList';
+
 
 
 
@@ -51,6 +57,13 @@ const App = () => {
             <Stack.Screen name="Professional" component={Professional} />
             <Stack.Screen name="Shopping" component={Shopping} />
             <Stack.Screen name="Vehicle" component={Vehicle} />
+            <Stack.Screen name="Aboutus" component={Aboutus} />
+            <Stack.Screen name="Budget" component={Budget} />
+            <Stack.Screen name="Contact" component={Contact} />
+            <Stack.Screen name="Reminders" component={Reminders} />
+            <Stack.Screen name="ToDoList" component={ToDoList} />
+            
+
           </>
         ) : (
           <Stack.Screen
