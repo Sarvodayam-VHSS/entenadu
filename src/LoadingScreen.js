@@ -9,7 +9,6 @@ const LoadingScreen = () => {
   const [quote, setQuote] = useState('');
 
   useEffect(() => {
-    // Fetch a random quote from the Quotable API
     axios.get('https://api.quotable.io/random')
       .then((response) => {
         const { content, author } = response.data;
