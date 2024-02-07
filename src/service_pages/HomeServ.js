@@ -1,15 +1,30 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Image, ScrollView, StyleSheet } from 'react-native';
 
-const Knowledge = () => {
-  // Knowledge component logic here
-
+const ProfileScreen = () => {
   return (
-    <View>
-      <Text>Knowledge Page</Text>
-      {/* Add your content for the Knowledge page */}
-    </View>
+    <ScrollView style={styles.container}>
+      <Text style={styles.text}>Home</Text>
+    </ScrollView>
   );
 };
 
-export default Knowledge;
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 20,
+  },
+  profileImage: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    alignSelf: 'center',
+    marginBottom: 20,
+  },
+  text: {
+    fontSize: 16,
+    marginBottom: 10,
+  },
+});
+
+export default ProfileScreen;

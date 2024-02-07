@@ -20,6 +20,7 @@ import Budget from './src/features/Budget';
 import Contact from './src/features/Contact';
 import Reminders from './src/features/Reminders';
 import ToDoList from './src/features/ToDoList';
+import ProfileScreen from './src/service_pages/Profile';
 
 
 
@@ -63,6 +64,7 @@ const App = () => {
             <Stack.Screen name="contact" component={Contact} />
             <Stack.Screen name="reminders" component={Reminders} />
             <Stack.Screen name="toDoList" component={ToDoList} />
+            <Stack.Screen name="profile" component={ProfileScreen} />
             
 
           </>
