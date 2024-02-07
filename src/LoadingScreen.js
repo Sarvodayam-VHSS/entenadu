@@ -18,13 +18,7 @@ const LoadingScreen = () => {
       .catch((error) => {
         console.error('Error fetching quote:', error);
       })
-      .finally(() => {
-        setIsLoading(false);
-        // Navigate to the 'Login' screen after loading.
-        // Replace 'Login' with the name of your Login screen.
-        navigation.navigate('Login');
-      });
-  }, [navigation]);
+  });
 
   return (
     <View style={styles.container}>
