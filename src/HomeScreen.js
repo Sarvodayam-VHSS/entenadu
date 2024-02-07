@@ -94,7 +94,9 @@ const HomeScreen = () => {
             style={styles.icon}
           />
         </TouchableOpacity>
-        <Text style={styles.userName}>Username</Text>
+        <TouchableOpacity onPress={() => navigation.navigate('profile')}>
+          <Text style={styles.userName}>Username</Text>
+        </TouchableOpacity>
       </View>
 
       {isDropdownVisible && renderDropdown()}
@@ -109,6 +111,7 @@ const HomeScreen = () => {
     </View>
   );
 };
+
 
 const styles = StyleSheet.create({
   container: {
