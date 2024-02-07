@@ -1,10 +1,10 @@
 import React from 'react';
 import { View, Text, Image, ScrollView, StyleSheet } from 'react-native';
 
-const ProfileScreen = () => {
+const HomeServ = () => {
   return (
     <ScrollView style={styles.container}>
-      <Text style={styles.text}>Home</Text>
+      <Text style={styles.text}>HomeServ</Text>
     </ScrollView>
   );
 };
@@ -27,4 +27,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ProfileScreen;
+export default HomeServ;
