@@ -6,8 +6,8 @@ const Vehicle = () => {
   const navigation = useNavigation();
 
   const gridItems = [
-    { label: 'Three Wheeler', image: require('./../../assets/tuk-tuk.png'), value: 'motorcycle' },
-    { label: 'Car', image: require('./../../assets/3d-car.png'), value: 'car' },
+    { label: 'Three Wheeler', image: require('./../../assets/tuk-tuk.png'), value: 'Three-Wheeler' },
+    { label: 'Car', image: require('./../../assets/3d-car.png'), value: 'Car' },
   ];
 
   const handleSelect = (item) => {
@@ -30,7 +30,7 @@ const Vehicle = () => {
         data={gridItems}
         renderItem={renderGridItem}
         keyExtractor={(item, index) => index.toString()}
-        numColumns={2} // Set numColumns to 2 for 2 grids in a row
+        numColumns={2}
         style={styles.grid}
       />
     </View>
@@ -57,8 +57,8 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   gridImage: {
-    width: 40, // Adjust the width as needed
-    height: 40, // Adjust the height as needed
+    width: 40,
+    height: 40,
     marginBottom: 10,
   },
   gridLabel: {

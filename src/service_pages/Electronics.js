@@ -6,11 +6,11 @@ const Electronics = () => {
   const navigation = useNavigation();
 
   const gridItems = [
-    { label: 'TV', image: require('./../../assets/television.png'), value: 'tv' },
-    { label: 'CCTV', image: require('./../../assets/cctv-camera.png'), value: 'cctv' },
-    { label: 'Computer', image: require('./../../assets/computer.png'), value: 'computer' },
-    { label: 'Mobile', image: require('./../../assets/smartphone.png'), value: 'mobile' },
-    { label: 'Ac/Fridge', image: require('./../../assets/acfridge-removebg-preview.png'), value: 'acFridge' },
+    { label: 'TV', image: require('./../../assets/television.png'), value: 'Tv And Electronics' },
+    { label: 'CCTV', image: require('./../../assets/cctv-camera.png'), value: 'CCTV' },
+    { label: 'Computer', image: require('./../../assets/computer.png'), value: 'Computer' },
+    { label: 'Mobile', image: require('./../../assets/smartphone.png'), value: 'Mobile' },
+    { label: 'Ac/Fridge', image: require('./../../assets/acfridge-removebg-preview.png'), value: 'Ac / Fridge' },
   ];
 
   const handleSelect = (item) => {
@@ -40,7 +40,7 @@ const Electronics = () => {
         data={gridItems}
         renderItem={renderGridItem}
         keyExtractor={(item, index) => index.toString()}
-        numColumns={2} // Set numColumns to 2 for 2 grids in a row
+        numColumns={2}
         style={styles.grid}
       />
     </View>
@@ -67,13 +67,13 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   gridImage: {
-    width: 40, // Default width for other items
-    height: 40, // Default height for other items
+    width: 40,
+    height: 40,
     marginBottom: 10,
   },
   acFridgeImage: {
-    width: 60, // Adjusted width for Ac/Fridge
-    height: 60, // Adjusted height for Ac/Fridge
+    width: 60,
+    height: 60,
   },
   gridLabel: {
     fontSize: 14,
