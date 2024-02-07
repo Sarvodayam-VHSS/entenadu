@@ -21,6 +21,8 @@ import Contact from './src/features/Contact';
 import Reminders from './src/features/Reminders';
 import ToDoList from './src/features/ToDoList';
 import ProfileScreen from './src/service_pages/Profile';
+import edit from './src/profile/edit'
+import view from './src/profile/view'
 
 
 
@@ -65,6 +67,8 @@ const App = () => {
             <Stack.Screen name="reminders" component={Reminders} />
             <Stack.Screen name="toDoList" component={ToDoList} />
             <Stack.Screen name="profile" component={ProfileScreen} />
+            <Stack.Screen name="edit" component= {edit} />
+            <Stack.Screen name='view' component= {view} />
             
 
           </>
