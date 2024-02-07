@@ -27,11 +27,11 @@ const HomeScreen = () => {
     { label: 'Home', icon: 'home', value: 'homeServ' },
     { label: 'Electronics', icon: 'bolt', value: 'electronics' },
     { label: 'Vehicle', icon: 'car', value: 'vehicle' },
+    { label: 'Shopping', icon: 'shopping-cart', value: 'shopping' },
     { label: 'Professional', icon: 'briefcase', value: 'professional' },
     { label: 'Aware', icon: 'info', value: 'aware' },
     { label: 'Counselling', icon: 'phone-square', value: 'counselling' },
     { label: 'Agri/Vet', icon: 'leaf', value: 'agric' },
-    { label: 'Shopping', icon: 'shopping-cart', value: 'shopping' },
     { label: 'Others', icon: 'commenting', value: 'others' },
   ];
 
@@ -73,7 +73,7 @@ const HomeScreen = () => {
     <TouchableOpacity
       style={[
         styles.gridItem,
-        item.label !== 'Home' && item.label !== 'Electronics' && item.label !== 'Vehicle' && styles.generalGridItem,
+        (item.label !== 'Home' && item.label !== 'Electronics' && item.label !== 'Vehicle' && item.label !== 'Shopping') && styles.generalGridItem,
         item.label === 'Professional' && styles.professionalGridItem,
       ]}
       onPress={() => handleSelect(item)}
