@@ -20,11 +20,7 @@ const HomeServ = () => {
   ];
 
   const handleSelect = (item) => {
-    if (item.value === 'Shopping') {
-      navigation.navigate('Shopping');
-    } else {
-      navigation.navigate(item.value);
-    }
+    navigation.navigate('UsersList', { skillSector: item.value });
   };
 
   const renderGridItem = ({ item }) => (
@@ -73,7 +69,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     width: 40,
     height: 40,
-    resizeMode: 'contain', // Adjust the resizeMode based on your image aspect ratio
+    resizeMode: 'contain',
   },
   gridLabel: {
     fontSize: 14,

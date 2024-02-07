@@ -1,31 +1,29 @@
-import React, { useState, useEffect } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import LoadingScreen from './src/LoadingScreen';
-import LoginScreen from './src/LoginScreen';
-import HomeScreen from './src/HomeScreen';
-import HomeServ from './src/service_pages/HomeServ';
+import React, { useState, useEffect } from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import LoadingScreen from "./src/LoadingScreen";
+import LoginScreen from "./src/LoginScreen";
+import HomeScreen from "./src/HomeScreen";
+import HomeServ from "./src/service_pages/HomeServ";
 
-import Agric from './src/service_pages/Agric';
-import Aware from './src/service_pages/Aware';
-import Counselling from './src/service_pages/Counselling';
-import Electronics from './src/service_pages/Electronics';
-import Others from './src/service_pages/Others';
-import Professional from './src/service_pages/Professional';
-import Shopping from './src/service_pages/Shopping';
-import Vehicle from './src/service_pages/Vehicle';
+import Agric from "./src/service_pages/Agric";
+import Aware from "./src/service_pages/Aware";
+import Counselling from "./src/service_pages/Counselling";
+import Electronics from "./src/service_pages/Electronics";
+import Others from "./src/service_pages/Others";
+import Professional from "./src/service_pages/Professional";
+import Shopping from "./src/service_pages/Shopping";
+import Vehicle from "./src/service_pages/Vehicle";
 
-import Aboutus from './src/features/Aboutus';
-import Budget from './src/features/Budget';
-import Contact from './src/features/Contact';
-import Reminders from './src/features/Reminders';
-import ToDoList from './src/features/ToDoList';
-import ProfileScreen from './src/service_pages/Profile';
-import edit from './src/profile/edit'
-import view from './src/profile/view'
-
-
-
+import Aboutus from "./src/features/Aboutus";
+import Budget from "./src/features/Budget";
+import Contact from "./src/features/Contact";
+import Reminders from "./src/features/Reminders";
+import ToDoList from "./src/features/ToDoList";
+import ProfileScreen from "./src/service_pages/Profile";
+import edit from "./src/profile/edit";
+import view from "./src/profile/view";
+import UsersList from "./src/functions/UsersList";
 
 const Stack = createStackNavigator();
 
@@ -33,17 +31,18 @@ const App = () => {
   const [isAppReady, setIsAppReady] = useState(false);
 
   useEffect(() => {
-    // Simulate app initialization or any other necessary tasks
     setTimeout(() => {
       setIsAppReady(true);
-    }, 3000); // Simulating a 3-second initialization time, replace with your actual logic
+    }, 3000);
 
-    // Clean up any resources if needed
     return () => {
       // Cleanup logic here
-
     };
   }, []);
+
+  const capitalizeFirstLetter = (str) => {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  };
 
   return (
     <NavigationContainer>
@@ -67,16 +66,27 @@ const App = () => {
             <Stack.Screen name="reminders" component={Reminders} />
             <Stack.Screen name="toDoList" component={ToDoList} />
             <Stack.Screen name="profile" component={ProfileScreen} />
-            <Stack.Screen name="edit" component= {edit} />
-            <Stack.Screen name='view' component= {view} />
-            
-
+            <Stack.Screen name="edit" component={edit} />
+            <Stack.Screen name="view" component={view} />
+            <Stack.Screen
+              name="UsersList"
+              component={UsersList}
+              options={({ route }) => ({
+                title:
+                  route.params && route.params.skillSector
+                    ? `${capitalizeFirstLetter(
+                        route.params.skillSector
+                      )}`
+                    : "Users List",
+                headerShown: true,
+              })}
+            />
           </>
         ) : (
           <Stack.Screen
             name="Loading"
             component={LoadingScreen}
-            options={{ headerShown: false }} // Hide the header during loading
+            options={{ headerShown: false }}
           />
         )}
       </Stack.Navigator>

@@ -14,9 +14,7 @@ const Electronics = () => {
   ];
 
   const handleSelect = (item) => {
-    // Add navigation logic for each item
-    // For now, let's navigate to a placeholder screen with the item value
-    navigation.navigate(item.value);
+    navigation.navigate('UsersList', { skillSector: item.value });
   };
 
   const renderGridItem = ({ item }) => {
