@@ -1,49 +1,83 @@
-import React from 'react';
-import { SafeAreaView, ScrollView, StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { SafeAreaView, ScrollView, StyleSheet, View, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { Avatar, Title, Caption, Card, Paragraph } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useNavigation } from '@react-navigation/native';
+import { get } from '@react-native-firebase/database';
+import { getDownloadURL } from "@firebase/storage";
+import { dataRef, storage } from '../../Firebase';
 
-const ProfileScreen = () => {
+const MyProfile = ({ route }) => {
   const navigation = useNavigation();
+  const { userId } = route.params;
+  const [loading, setLoading] = useState(true);
+  const [userInfo, setUserInfo] = useState(null);
 
-  // Example user data
-  const userInfo = {
-    name: 'John Doe',
-    address: '123 Main St, Anytown, State',
-    pincode: '123456',
-    dob: '01/01/1990',
-    phone: '+91-900000009',
-    email: 'john_doe@email.com',
-    aadhaarNo: '1234-5678-9123',
-    educationQualification: 'Bachelor of Science',
-    skillSector: 'Information Technology',
-    bloodGroup: 'O+',
-    experience: '5 Years',
-    municipalityPanchayath: 'Anytown Municipality',
-    wardNo: '12',
-    place: 'Anytown',
-    landMark: 'Near Central Park'
-  };
+  useEffect(() => {
+    const userRef = dataRef.ref(`registrations/${userId}`);
+
+    const fetchData = async () => {
+      try {
+        const snapshot = await get(userRef);
+        if (snapshot.exists()) {
+          const userData = snapshot.val();
+          const imagePath = `profile_images/${userId}`;
+          console.log(imagePath);
+          const imageRef = storage.child(imagePath);
+
+          try {
+            const imageUrl = await getDownloadURL(imageRef);
+            userData.imageUrl = imageUrl;
+
+            // Convert dob to age
+            const dobDate = new Date(userData.dob);
+            const today = new Date();
+            const age = Math.floor(
+              (today - dobDate) / (365.25 * 24 * 60 * 60 * 1000)
+            );
+            userData.age = age;
+
+            setUserInfo(userData);
+          } catch (error) {
+            console.error("Error fetching image:", error);
+            setUserInfo(userData); // Still set user info even if image fetch fails
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [userId]);
+
+  if (loading) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#0066ff" />
+      </View>
+    );
+  }
 
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
         <View style={styles.userInfoSection}>
           <Avatar.Image 
-            source={{ uri: 'https://api.adorable.io/avatars/80/abott@adorable.png' }}
+            source={{ uri: userInfo.imageUrl || 'https://api.adorable.io/avatars/80/abott@adorable.png' }}
             size={100}
             style={{ backgroundColor: '#f4f4f4' }}
           />
           <View style={{ marginLeft: 20 }}>
-            <Title style={styles.title}>John Doe</Title>
-            <Caption style={styles.caption}>@j_doe</Caption>
+            <Title style={styles.title}>{userInfo.name}</Title>
           </View>
         </View>
 
         <Card style={styles.card}>
           <Card.Content>
-            <ProfileItem label="Name" value={userInfo.name} icon="account" />
+          <ProfileItem label="Name" value={userInfo.name} icon="account" />
             <ProfileItem label="Address" value={userInfo.address} icon="map-marker" />
             <ProfileItem label="Pincode" value={userInfo.pincode} icon="pin" />
             <ProfileItem label="Date of Birth" value={userInfo.dob} icon="calendar" />
@@ -54,7 +88,7 @@ const ProfileScreen = () => {
             <ProfileItem label="Skill Sector" value={userInfo.skillSector} icon="briefcase" />
             <ProfileItem label="Blood Group" value={userInfo.bloodGroup} icon="water" />
             <ProfileItem label="Experience" value={userInfo.experience} icon="history" />
-            <ProfileItem label="Municipality/Panchayath" value={userInfo.municipalityPanchayath} icon="office-building" />
+            <ProfileItem label="Municipality/Panchayath" value={userInfo.municipality_panchayath} icon="office-building" />
             <ProfileItem label="Ward No" value={userInfo.wardNo} icon="numeric" />
             <ProfileItem label="Place" value={userInfo.place} icon="home-map-marker" />
             <ProfileItem label="Land Mark" value={userInfo.landMark} icon="map-marker-radius" />
@@ -134,7 +168,12 @@ const styles = StyleSheet.create({
     color: '#ffffff',
     fontSize: 18,
     fontWeight: 'bold',
-  }
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });
 
-export default ProfileScreen;
+export default MyProfile;

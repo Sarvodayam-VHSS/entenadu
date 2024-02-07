@@ -7,16 +7,16 @@ const HomeServ = () => {
   const [columns, setColumns] = useState(2);
 
   const gridItems = [
-    { label: 'Electrical', image: require('./../../assets/lightning.png'), value: 'electrical' },
-    { label: 'Plumbing', image: require('./../../assets/plumbing.png'), value: 'plumbing' },
-    { label: 'Construction', image: require('./../../assets/workers.png'), value: 'construction' },
-    { label: 'Coconut', image: require('./../../assets/coconut.png'), value: 'coconut' },
-    { label: 'Kooli Pani', image: require('./../../assets/pickaxe.png'), value: 'kooliPani' },
-    { label: 'Welding', image: require('./../../assets/construction-and-tools.png'), value: 'welding' },
-    { label: 'Tile', image: require('./../../assets/tile.png'), value: 'tile' },
-    { label: 'Aluminium', image: require('./../../assets/kitchen.png'), value: 'aluminium' },
-    { label: 'Woodwork', image: require('./../../assets/woodworking.png'), value: 'woodwork' },
-    { label: 'Well', image: require('./../../assets/water-well.png'), value: 'well' },
+    { label: 'Electrical', image: require('./../../assets/lightning.png'), value: 'Electrician' },
+    { label: 'Plumbing', image: require('./../../assets/plumbing.png'), value: 'Plumber' },
+    { label: 'Construction', image: require('./../../assets/workers.png'), value: 'Construction' },
+    { label: 'Coconut', image: require('./../../assets/coconut.png'), value: 'Coconut Climbing' },
+    { label: 'Kooli Pani', image: require('./../../assets/pickaxe.png'), value: 'Kooli Pani' },
+    { label: 'Welding', image: require('./../../assets/construction-and-tools.png'), value: 'Welding' },
+    { label: 'Tile', image: require('./../../assets/tile.png'), value: 'Tile' },
+    { label: 'Aluminium', image: require('./../../assets/kitchen.png'), value: 'Aluminium' },
+    { label: 'Woodwork', image: require('./../../assets/woodworking.png'), value: 'Wood Work' },
+    { label: 'Well', image: require('./../../assets/water-well.png'), value: 'Well' },
   ];
 
   const handleSelect = (item) => {

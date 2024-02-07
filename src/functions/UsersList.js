@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, FlatList, Image, StyleSheet } from "react-native";
+import { View, Text, FlatList, Image, StyleSheet, TouchableOpacity } from "react-native";
 import {
   query,
   orderByChild,
@@ -10,7 +10,7 @@ import {
 import { getDownloadURL } from "@firebase/storage";
 import { dataRef, storage } from "../../Firebase";
 
-const UsersList = ({ route }) => {
+const UsersList = ({ route, navigation }) => {
   const [users, setUsers] = useState([]);
   const { skillSector } = route.params;
 
@@ -30,8 +30,8 @@ const UsersList = ({ route }) => {
         const usersArray = Object.values(usersData);
 
         for (const user of usersArray) {
-          const userID = user.email.split("@")[0] + user.phone;
-          const imagePath = `profile_images/${userID}`;
+          user.userID = user.email.split("@")[0] + user.phone;
+          const imagePath = `profile_images/${user.userID}`;
           const imageRef = storage.child(imagePath);
 
           try {
@@ -61,14 +61,21 @@ const UsersList = ({ route }) => {
     };
   }, [skillSector]);
 
+  const handleCardPress = (userId) => {
+    navigation.navigate('UsersProfile', { userId });
+  };
+
   const renderUserCard = ({ item, index }) => (
-    <View style={styles.card}>
+    <TouchableOpacity
+      style={styles.card}
+      onPress={() => handleCardPress(item.userID)}
+    >
       <Image source={{ uri: item.imageUrl }} style={styles.profileImage} />
       <View style={styles.userInfo}>
         <Text style={styles.boldText}>Name: {item.name}</Text>
         <Text style={styles.boldText}>Age: {item.age}</Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 
   return (

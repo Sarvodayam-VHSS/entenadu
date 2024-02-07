@@ -20,9 +20,9 @@ import Budget from "./src/features/Budget";
 import Contact from "./src/features/Contact";
 import Reminders from "./src/features/Reminders";
 import ToDoList from "./src/features/ToDoList";
-import ProfileScreen from "./src/service_pages/Profile";
 import edit from "./src/profile/edit";
-import view from "./src/profile/view";
+import MyProfile from "./src/profile/MyProfile";
+import UsersProfile from "./src/profile/UsersProfile";
 import UsersList from "./src/functions/UsersList";
 
 const Stack = createStackNavigator();
@@ -65,9 +65,9 @@ const App = () => {
             <Stack.Screen name="contact" component={Contact} />
             <Stack.Screen name="reminders" component={Reminders} />
             <Stack.Screen name="toDoList" component={ToDoList} />
-            <Stack.Screen name="profile" component={ProfileScreen} />
             <Stack.Screen name="edit" component={edit} />
-            <Stack.Screen name="view" component={view} />
+            <Stack.Screen name="MyProfile" component={MyProfile} />
+            <Stack.Screen name="UsersProfile" component={UsersProfile} />
             <Stack.Screen
               name="UsersList"
               component={UsersList}

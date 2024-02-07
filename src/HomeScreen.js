@@ -94,7 +94,7 @@ const HomeScreen = () => {
             style={styles.icon}
           />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('profile')}>
+        <TouchableOpacity onPress={() => navigation.navigate('MyProfile', { userId })}>
           <Text style={styles.userName}>Username</Text>
         </TouchableOpacity>
       </View>
