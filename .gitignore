@@ -9,6 +9,8 @@ dist/
 web-build/
 
 .env
+# Temp
+Firebase.js
 
 # Native
 *.orig.*
