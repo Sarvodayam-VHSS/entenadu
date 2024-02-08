@@ -34,7 +34,7 @@ const LoginScreen = () => {
         const userDetails = userDetailsSnapshot.val();
 
         if (userDetails) {
-          navigation.replace("Home", { userDetails });
+          navigation.replace("Home", { userDetails, userId });
         }
       }
     } catch (error) {

@@ -7,12 +7,14 @@ import {
   FlatList,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from '@react-navigation/native';
 
-const HomeScreen = () => {
+const HomeScreen = ({ route }) => {
   const [isDropdownVisible, setDropdownVisible] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
   const navigation = useNavigation();
+  const { userDetails, userId } = route.params;
 
   const dropdownItems = [
     { label: 'To-Do List', value: 'ToDoList' },
@@ -20,7 +22,7 @@ const HomeScreen = () => {
     { label: 'Family Budget', value: 'Budget' },
     { label: 'About Us', value: 'Aboutus' },
     { label: 'Contact', value: 'Contact' },
-    { label: 'Signout', value: 'Login' }
+    { label: 'Signout', value: 'Signout' }
   ];
 
   const gridItems = [
@@ -35,6 +37,19 @@ const HomeScreen = () => {
     { label: 'Others', icon: 'commenting', value: 'others' },
   ];
 
+  const handleLogout = async () => {
+    console.log("signout");
+    try {
+      await AsyncStorage.removeItem('userId');
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'Login' }],
+      });
+    } catch (error) {
+      console.error('Logout error:', error.message);
+    }
+  };
+
   const handleIconPress = () => {
     setDropdownVisible(!isDropdownVisible);
   };
@@ -43,11 +58,8 @@ const HomeScreen = () => {
     setSelectedOption(item.label);
     setDropdownVisible(false);
 
-    if (item.value === 'Login') {
-      navigation.reset({
-        index: 0,
-        routes: [{ name: 'Login' }],
-      });
+    if (item.value === 'Signout') {
+      handleLogout();
     } else if (item.value === 'Shopping') {
       navigation.navigate('Shopping');
     } else {
@@ -95,7 +107,7 @@ const HomeScreen = () => {
           />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate('MyProfile', { userId })}>
-          <Text style={styles.userName}>Username</Text>
+          <Text style={styles.userName}>{userDetails.name}</Text>
         </TouchableOpacity>
       </View>
 
@@ -147,7 +159,7 @@ const styles = StyleSheet.create({
     borderBottomColor: '#ccc',
   },
   generalGridItem: {
-    backgroundColor: 'rgba(255, 0, 0, 0.2)', // Light red tint for grids other than Home, Electronics, and Vehicle
+    backgroundColor: 'rgba(255, 0, 0, 0.2)',
   },
   grid: {
     marginTop: 10,
