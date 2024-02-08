@@ -9,16 +9,28 @@ const LoadingScreen = () => {
   const [quote, setQuote] = useState('');
 
   useEffect(() => {
+    fetchQuote();
+  }, []);
+
+  const fetchQuote = () => {
     axios.get('https://api.quotable.io/random')
       .then((response) => {
         const { content, author } = response.data;
         const formattedQuote = `"${content}" - ${author}`;
         setQuote(formattedQuote);
+        setIsLoading(false); // Set loading to false after fetching quote
+        
+        // Simulate a short delay then navigate or change state
+        setTimeout(() => {
+          // Navigate to another screen or update state here
+          // Example: navigation.navigate('HomeScreen');
+        }, 2000); // 2 seconds delay
       })
       .catch((error) => {
         console.error('Error fetching quote:', error);
-      })
-  });
+        setIsLoading(false); // Ensure to set loading to false even if there's an error
+      });
+  };
 
   return (
     <View style={styles.container}>
@@ -29,16 +41,11 @@ const LoadingScreen = () => {
           style={styles.logo}
           resizeMode="contain"
         />
-        <View style={styles.loadingContainer}>
-          {isLoading ? (
-            <>
-              <ActivityIndicator size="large" color="#0000ff" />
-              <Text style={styles.loadingText}>Loading...</Text>
-            </>
-          ) : (
-            <Text style={styles.quoteText}>{quote}</Text>
-          )}
-        </View>
+        {isLoading ? (
+          <ActivityIndicator size="large" color="#0000ff" />
+        ) : (
+          <Text style={styles.quoteText}>{quote}</Text>
+        )}
         <Text style={styles.poweredByText}>Powered by Sarvodayam VHSS</Text>
       </View>
     </View>
@@ -70,14 +77,11 @@ const styles = StyleSheet.create({
     marginTop: 10, // Adjust the marginTop to set the desired gap
     alignItems: 'center',
   },
-  loadingText: {
-    marginTop: 10,
-    fontSize: 16,
-  },
   quoteText: {
     marginTop: 20, // Add marginTop to create a gap
     fontSize: 18,
     textAlign: 'center',
+    paddingHorizontal: 20,
   },
   poweredByText: {
     fontSize: 12,
