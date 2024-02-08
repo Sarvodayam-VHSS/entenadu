@@ -3,13 +3,14 @@ import {
   View,
   Text,
   TextInput,
-  Button,
   StyleSheet,
   TouchableOpacity,
+  ScrollView,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Linking } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+
 import { dataRef } from "../Firebase";
 
 const LoginScreen = () => {
@@ -43,6 +44,9 @@ const LoginScreen = () => {
       setLoading(false);
     }
   };
+  const forgotPass = () => {
+    Linking.openURL("https://sarvodayam.in/entenadu/forgot-password");
+  }
 
   const handleLogin = async () => {
     try {
@@ -87,71 +91,92 @@ const LoginScreen = () => {
   };
 
   return (
-    <View style={styles.container}>
-      {loading ? (
-        <Text>Loading...</Text>
-      ) : (
-        <>
-          <View style={styles.container}>
-            <Text style={styles.title}>Login</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Email"
-              value={email}
-              onChangeText={setEmail}
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Mobile Number"
-              value={mobile}
-              onChangeText={setMobile}
-              keyboardType="numeric"
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Password"
-              secureTextEntry
-              value={password}
-              onChangeText={setPassword}
-            />
-            {error ? <Text style={styles.error}>{error}</Text> : null}
-            <Button title="Login" onPress={handleLogin} />
-            <TouchableOpacity onPress={handleNavigateToRegistration}>
-              <Text style={styles.newUserButton}>New User? Register Here</Text>
-            </TouchableOpacity>
-          </View>
-        </>
-      )}
-    </View>
+    <ScrollView contentContainerStyle={styles.container}>
+      <Text style={styles.title}>Login</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="Email"
+        value={email}
+        onChangeText={setEmail}
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Mobile Number"
+        value={mobile}
+        onChangeText={setMobile}
+        keyboardType="numeric"
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Password"
+        secureTextEntry
+        value={password}
+        onChangeText={setPassword}
+      />
+      {error ? <Text style={styles.error}>{error}</Text> : null}
+      <CustomButton title="Login" onPress={handleLogin} />
+      <TouchableOpacity onPress={forgotPass}>
+        <Text style={styles.newUserButton}>Forgot Password? Reset Here</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={handleNavigateToRegistration}>
+        <Text style={styles.newUserButton}>New User? Register Here</Text>
+      </TouchableOpacity>
+    </ScrollView>
   );
 };
 
+const CustomButton = ({ onPress, title }) => (
+  <TouchableOpacity
+    onPress={onPress}
+    style={{
+      backgroundColor: "#007BFF",
+      width: "90%",
+      height: 50,
+      justifyContent: "center",
+      alignItems: "center",
+      borderRadius: 5,
+      marginTop: 10,
+    }}
+  >
+    <Text style={{ color: "#fff", fontSize: 16, fontWeight: "600" }}>{title}</Text>
+  </TouchableOpacity>
+);
+
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1,
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: "#f5f5f5",
   },
   title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 20,
+    fontSize: 28,
+    fontWeight: "600",
+    color: "#333",
+    marginBottom: 40,
   },
   input: {
-    height: 40,
-    width: "80%",
-    borderColor: "gray",
+    height: 50,
+    width: "90%",
+    backgroundColor: "#fff",
+    borderColor: "#ddd",
     borderWidth: 1,
-    marginBottom: 10,
-    paddingLeft: 10,
+    borderRadius: 5,
+    marginBottom: 15,
+    paddingLeft: 15,
+    fontSize: 16,
+    color: "#333",
   },
   error: {
-    color: "red",
-    marginBottom: 10,
+    color: "#D8000C",
+    marginBottom: 20,
+    width: "90%",
+    textAlign: "center",
   },
   newUserButton: {
-    color: "blue",
-    marginTop: 10,
+    color: "#007BFF",
+    marginTop: 20,
+    fontSize: 16,
   },
 });
 
