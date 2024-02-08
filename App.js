@@ -12,7 +12,6 @@ import Counselling from "./src/service_pages/Counselling";
 import Electronics from "./src/service_pages/Electronics";
 import Others from "./src/service_pages/Others";
 import Professional from "./src/service_pages/Professional";
-import Shopping from "./src/service_pages/Shopping";
 import Vehicle from "./src/service_pages/Vehicle";
 
 import Aboutus from "./src/features/Aboutus";
@@ -24,6 +23,9 @@ import edit from "./src/profile/edit";
 import MyProfile from "./src/profile/MyProfile";
 import UsersProfile from "./src/profile/UsersProfile";
 import UsersList from "./src/functions/UsersList";
+import ShopEach from "./src/service_pages/ShoppingPages/ShopEach";
+import Shopping from "./src/service_pages/ShoppingPages/Shopping";
+import ShoppingItem from "./src/service_pages/ShoppingPages/ShoppingItem";
 
 const Stack = createStackNavigator();
 
@@ -58,7 +60,6 @@ const App = () => {
             <Stack.Screen name="electronics" component={Electronics} />
             <Stack.Screen name="others" component={Others} />
             <Stack.Screen name="professional" component={Professional} />
-            <Stack.Screen name="shopping" component={Shopping} />
             <Stack.Screen name="vehicle" component={Vehicle} />
             <Stack.Screen name="aboutus" component={Aboutus} />
             <Stack.Screen name="budget" component={Budget} />
@@ -68,6 +69,10 @@ const App = () => {
             <Stack.Screen name="edit" component={edit} />
             <Stack.Screen name="MyProfile" component={MyProfile} />
             <Stack.Screen name="UsersProfile" component={UsersProfile} />
+            <Stack.Screen name="shopping" component={Shopping} />
+            <Stack.Screen name="ShoppingItem" component={ShoppingItem} />
+            <Stack.Screen name="shopeach" component={ShopEach} />
+            
             <Stack.Screen
               name="UsersList"
               component={UsersList}

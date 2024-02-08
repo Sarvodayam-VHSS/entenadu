@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, FlatList, Image, StyleSheet, Dimensions } from 'react-native';
 
 const { width } = Dimensions.get('window');
-const cardWidth = (width - 32) / 2; // Adjust the margin and padding to your liking
+const cardWidth = (width - 32) / 2; 
 
 const products = [
   {
@@ -40,7 +40,7 @@ const products = [
     price: '$59',
     imageUrl: 'path-to-headphones-image',
   },
-  // ... more products
+  
 ];
 
 
@@ -62,6 +62,11 @@ const ShoppingTile = ({ name, amount, imageUrl }) => (
       return name.substring(0, maxLength) + '...';
     }
     return name;
+  };
+  const handleSelect = (item) => {
+    if (item.value===""){
+      navigation.navigate('ShopEach');
+    }
   };
   
   const ShoppingPage = () => {
