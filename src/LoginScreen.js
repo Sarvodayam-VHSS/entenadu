@@ -46,7 +46,7 @@ const LoginScreen = () => {
   };
   const forgotPass = () => {
     Linking.openURL("https://sarvodayam.in/entenadu/forgot-password");
-  }
+  };
 
   const handleLogin = async () => {
     try {
@@ -91,37 +91,47 @@ const LoginScreen = () => {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.title}>Login</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Email"
-        value={email}
-        onChangeText={setEmail}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Mobile Number"
-        value={mobile}
-        onChangeText={setMobile}
-        keyboardType="numeric"
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        secureTextEntry
-        value={password}
-        onChangeText={setPassword}
-      />
-      {error ? <Text style={styles.error}>{error}</Text> : null}
-      <CustomButton title="Login" onPress={handleLogin} />
-      <TouchableOpacity onPress={forgotPass}>
-        <Text style={styles.newUserButton}>Forgot Password? Reset Here</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={handleNavigateToRegistration}>
-        <Text style={styles.newUserButton}>New User? Register Here</Text>
-      </TouchableOpacity>
-    </ScrollView>
+    <View style={styles.container}>
+      {loading ? (
+        <Text>Loading...</Text>
+      ) : (
+        <>
+          <ScrollView contentContainerStyle={styles.container}>
+            <Text style={styles.title}>Login</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Email"
+              value={email}
+              onChangeText={setEmail}
+            />
+            <TextInput
+              style={styles.input}
+              placeholder="Mobile Number"
+              value={mobile}
+              onChangeText={setMobile}
+              keyboardType="numeric"
+            />
+            <TextInput
+              style={styles.input}
+              placeholder="Password"
+              secureTextEntry
+              value={password}
+              onChangeText={setPassword}
+            />
+            {error ? <Text style={styles.error}>{error}</Text> : null}
+            <CustomButton title="Login" onPress={handleLogin} />
+            <TouchableOpacity onPress={forgotPass}>
+              <Text style={styles.newUserButton}>
+                Forgot Password? Reset Here
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={handleNavigateToRegistration}>
+              <Text style={styles.newUserButton}>New User? Register Here</Text>
+            </TouchableOpacity>
+          </ScrollView>
+        </>
+      )}
+    </View>
   );
 };
 
@@ -138,7 +148,9 @@ const CustomButton = ({ onPress, title }) => (
       marginTop: 10,
     }}
   >
-    <Text style={{ color: "#fff", fontSize: 16, fontWeight: "600" }}>{title}</Text>
+    <Text style={{ color: "#fff", fontSize: 16, fontWeight: "600" }}>
+      {title}
+    </Text>
   </TouchableOpacity>
 );
 
