@@ -45,7 +45,7 @@ const LoginScreen = () => {
     }
   };
   const forgotPass = () => {
-    Linking.openURL("https://sarvodayam.in/entenadu/forgot-password");
+    Linking.openURL("https://sarvodayam.in/entenadu/reset-pass");
   };
 
   const handleLogin = async () => {
@@ -128,6 +128,7 @@ const LoginScreen = () => {
             <TouchableOpacity onPress={handleNavigateToRegistration}>
               <Text style={styles.newUserButton}>New User? Register Here</Text>
             </TouchableOpacity>
+            <Text style={styles.redtext}>Note: Default Password is 'password'</Text>
           </ScrollView>
         </>
       )}
@@ -155,6 +156,12 @@ const CustomButton = ({ onPress, title }) => (
 );
 
 const styles = StyleSheet.create({
+  redtext:{
+    color:  'red',
+    padding: 20,
+    fontSize: 16,
+    
+  },
   container: {
     flexGrow: 1,
     justifyContent: "center",

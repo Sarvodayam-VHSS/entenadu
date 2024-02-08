@@ -5,6 +5,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   FlatList,
+  Modal, // Import Modal from react-native
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -13,6 +14,7 @@ import { useNavigation } from '@react-navigation/native';
 const HomeScreen = ({ route }) => {
   const [isDropdownVisible, setDropdownVisible] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
+  const [logoutConfirmationVisible, setLogoutConfirmationVisible] = useState(false); // State to control logout confirmation modal
   const navigation = useNavigation();
   const { userDetails, userId } = route.params;
 
@@ -38,7 +40,6 @@ const HomeScreen = ({ route }) => {
   ];
 
   const handleLogout = async () => {
-    console.log("signout");
     try {
       await AsyncStorage.removeItem('userId');
       navigation.reset({
@@ -59,7 +60,7 @@ const HomeScreen = ({ route }) => {
     setDropdownVisible(false);
 
     if (item.value === 'Signout') {
-      handleLogout();
+      setLogoutConfirmationVisible(true); // Show logout confirmation modal
     } else if (item.value === 'Shopping') {
       navigation.navigate('Shopping');
     } else {
@@ -120,6 +121,39 @@ const HomeScreen = ({ route }) => {
         numColumns={3}
         style={styles.grid}
       />
+
+      {/* Logout confirmation modal */}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={logoutConfirmationVisible}
+        onRequestClose={() => {
+          setLogoutConfirmationVisible(false);
+        }}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>Are you sure you want to sign out?</Text>
+            <View style={styles.modalButtons}>
+              <TouchableOpacity
+                style={[styles.button, styles.buttonCancel]}
+                onPress={() => setLogoutConfirmationVisible(false)}
+              >
+                <Text style={styles.buttonText}>Cancel</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.button, styles.buttonConfirm]}
+                onPress={() => {
+                  handleLogout();
+                  setLogoutConfirmationVisible(false);
+                }}
+              >
+                <Text style={styles.buttonText}>Confirm</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };
@@ -179,6 +213,54 @@ const styles = StyleSheet.create({
   },
   gridLabel: {
     fontSize: 12,
+  },
+  // Styles for the modal
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: 'center',
+  },
+  modalButtons: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    width: '100%',
+  },
+  button: {
+    borderRadius: 5,
+    padding: 10,
+    elevation: 2,
+    minWidth: 100,
+  },
+  buttonCancel: {
+    backgroundColor: '#ccc',
+  },
+  buttonConfirm: {
+    backgroundColor: '#2196F3',
+  },
+  buttonText: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
 });
 
