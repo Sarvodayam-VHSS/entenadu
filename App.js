@@ -55,7 +55,11 @@ const App = () => {
           {isAppReady ? (
             <>
               <Stack.Screen name="Login" component={LoginScreen} />
-              <Stack.Screen name="Home" component={HomeScreen} />
+              <Stack.Screen
+                name="Home"
+                component={HomeScreen}
+                options={{ headerShown: false }}
+              />
               <Stack.Screen name="homeServ" component={HomeServ} />
               <Stack.Screen name="agric" component={Agric} />
               <Stack.Screen name="aware" component={Aware} />
