@@ -26,6 +26,7 @@ import UsersList from "./src/functions/UsersList";
 import ShopEach from "./src/service_pages/ShoppingPages/ShopEach";
 import Shopping from "./src/service_pages/ShoppingPages/Shopping";
 import ShoppingItem from "./src/service_pages/ShoppingPages/ShoppingItem";
+import Selling from "./src/service_pages/ShoppingPages/Selling";
 
 const Stack = createStackNavigator();
 
@@ -72,6 +73,7 @@ const App = () => {
             <Stack.Screen name="shopping" component={Shopping} />
             <Stack.Screen name="ShoppingItem" component={ShoppingItem} />
             <Stack.Screen name="shopeach" component={ShopEach} />
+            <Stack.Screen name="Selling" component={Selling} />
             
             <Stack.Screen
               name="UsersList"

@@ -14,6 +14,9 @@ const Shopping = () => {
     if (item.value==="buy"){
       navigation.navigate('ShoppingItem');
     }
+    else if (item.value==="sell"){
+      navigation.navigate('Selling')
+    }
   };
 
   const renderGridItem = ({ item }) => (
