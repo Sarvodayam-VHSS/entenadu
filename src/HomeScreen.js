@@ -12,7 +12,7 @@ import {
 import Icon from "react-native-vector-icons/FontAwesome";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
-import { Avatar, Title, Card } from "react-native-paper";
+import { Avatar } from "react-native-paper";
 
 const HomeScreen = ({ route }) => {
   const [isMenuVisible, setIsMenuVisible] = useState(false);
@@ -82,7 +82,7 @@ const HomeScreen = ({ route }) => {
       value: "others",
     },
   ];
-  
+
   const slideMenuIn = () => {
     Animated.timing(menuAnimation, {
       toValue: 0,
@@ -116,8 +116,7 @@ const HomeScreen = ({ route }) => {
     if (value === "handleLogout") {
       setLogoutConfirmationVisible(true);
     } else {
-      console.log("details: " + userDetails);
-      navigation.navigate(value, { userId : userId });
+      navigation.navigate(value, { userId: userId });
     }
   };
 
@@ -140,9 +139,7 @@ const HomeScreen = ({ route }) => {
       >
         <View style={styles.user}>
           <TouchableOpacity
-            onPress={() =>
-              navigation.navigate("MyProfile", { userId })
-            }
+            onPress={() => navigation.navigate("MyProfile", { userId })}
             style={{ flexDirection: "row", alignItems: "center" }}
           >
             <Avatar.Image
@@ -174,20 +171,24 @@ const HomeScreen = ({ route }) => {
 
       <View style={styles.header}>
         <TouchableOpacity onPress={toggleMenu}>
-          <Icon name="bars" size={24} color="#fff" />
+          <Icon name="bars" size={24} color="#5A5A5A" />
         </TouchableOpacity>
         <Text style={styles.userName}>{userDetails.name}</Text>
-        <TouchableOpacity onPress={() => setLogoutConfirmationVisible(true)}>
-          <Icon name="sign-out" size={24} color="#fff" />
-        </TouchableOpacity>
       </View>
 
       <FlatList
         data={gridItems}
         renderItem={({ item }) => (
           <TouchableOpacity
-            style={styles.gridItem}
-            onPress={() => navigation.navigate(item.value)}
+            style={[
+              styles.gridItem,
+              item.label !== "Home" &&
+                item.label !== "Electronics" &&
+                item.label !== "Vehicle" &&
+                item.label !== "Shopping" &&
+                styles.generalGridItem,
+            ]}
+            onPress={() => navigation.navigate(item.value, { userId: userId })}
           >
             <Image source={item.image} style={styles.gridImage} />
             <Text style={styles.gridLabel}>{item.label}</Text>
@@ -239,9 +240,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    backgroundColor: "#5682a3",
+    backgroundColor: "#FFF",
     paddingHorizontal: 20,
     paddingVertical: 15,
+    paddingTop: 50,
   },
   user: {
     alignItems: "center",
@@ -250,14 +252,17 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     paddingTop: 20,
   },
+  closeMenu: {
+    marginLeft: 40,
+  },
   avatar: {
     backgroundColor: "#f4f4f4",
-    marginRight: 12,
+    top: 10,
+    marginRight: 15,
   },
   userName: {
     fontWeight: "bold",
     fontSize: 18,
-    flex: 1,
   },
   menu: {
     position: "absolute",
