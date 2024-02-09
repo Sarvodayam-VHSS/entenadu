@@ -5,7 +5,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   FlatList,
-  Modal, // Import Modal from react-native
+  Modal,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -14,7 +14,7 @@ import { useNavigation } from '@react-navigation/native';
 const HomeScreen = ({ route }) => {
   const [isDropdownVisible, setDropdownVisible] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
-  const [logoutConfirmationVisible, setLogoutConfirmationVisible] = useState(false); // State to control logout confirmation modal
+  const [logoutConfirmationVisible, setLogoutConfirmationVisible] = useState(false);
   const navigation = useNavigation();
   const { userDetails, userId } = route.params;
 
@@ -60,11 +60,10 @@ const HomeScreen = ({ route }) => {
     setDropdownVisible(false);
 
     if (item.value === 'Signout') {
-      setLogoutConfirmationVisible(true); // Show logout confirmation modal
-    } else if (item.value === 'Shopping') {
-      navigation.navigate('Shopping');
+      setLogoutConfirmationVisible(true);
     } else {
-      navigation.navigate(item.value);
+      console.log("Home screen: " + userId);
+      navigation.navigate(item.value, { userId: userId });
     }
   };
 
@@ -122,7 +121,6 @@ const HomeScreen = ({ route }) => {
         style={styles.grid}
       />
 
-      {/* Logout confirmation modal */}
       <Modal
         animationType="slide"
         transparent={true}
@@ -214,7 +212,6 @@ const styles = StyleSheet.create({
   gridLabel: {
     fontSize: 12,
   },
-  // Styles for the modal
   centeredView: {
     flex: 1,
     justifyContent: 'center',

@@ -1,21 +1,36 @@
-import React from 'react';
-import { View, Text, TouchableOpacity, FlatList, StyleSheet, Image } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import React from "react";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  FlatList,
+  StyleSheet,
+  Image,
+} from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
-const Shopping = () => {
+const Shopping = ({ route }) => {
   const navigation = useNavigation();
+  const { userId } = route.params;
 
   const gridItems = [
-    { label: 'Buy', image: require('./../../../assets/shopping-bag.png'), value: 'buy' },
-    { label: 'Sell', image: require('./../../../assets/selling.png'), value: 'sell' },
+    {
+      label: "Buy",
+      image: require("./../../../assets/shopping-bag.png"),
+      value: "buy",
+    },
+    {
+      label: "Sell",
+      image: require("./../../../assets/selling.png"),
+      value: "sell",
+    },
   ];
 
   const handleSelect = (item) => {
-    if (item.value==="buy"){
-      navigation.navigate('ShoppingItem');
-    }
-    else if (item.value==="sell"){
-      navigation.navigate('Selling')
+    if (item.value === "buy") {
+      navigation.navigate("ShoppingList", { userId: userId });
+    } else if (item.value === "sell") {
+      navigation.navigate("SellProduct", { userId: userId });
     }
   };
 
@@ -45,7 +60,7 @@ const Shopping = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#ecf0f1',
+    backgroundColor: "#ecf0f1",
     padding: 20,
   },
   grid: {
@@ -53,9 +68,9 @@ const styles = StyleSheet.create({
   },
   gridItem: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#fff',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#fff",
     padding: 20,
     margin: 10,
     borderRadius: 10,
