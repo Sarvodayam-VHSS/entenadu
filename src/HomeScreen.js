@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import {
   View,
   Text,
@@ -7,26 +7,32 @@ import {
   FlatList,
   Modal,
   Image,
+  Animated,
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
+import { Avatar, Title, Card } from "react-native-paper";
 
 const HomeScreen = ({ route }) => {
-  const [isDropdownVisible, setDropdownVisible] = useState(false);
-  const [selectedOption, setSelectedOption] = useState(null);
+  const [isMenuVisible, setIsMenuVisible] = useState(false);
   const [logoutConfirmationVisible, setLogoutConfirmationVisible] =
     useState(false);
+  const menuAnimation = useRef(new Animated.Value(-300)).current;
   const navigation = useNavigation();
   const { userDetails, userId } = route.params;
 
-  const dropdownItems = [
+  const closeMenu = () => {
+    slideMenuOut();
+  };
+
+  const menuItem = [
     { label: "To-Do List", value: "ToDoList" },
     { label: "Reminders", value: "Reminders" },
     { label: "Family Budget", value: "Budget" },
     { label: "About Us", value: "Aboutus" },
     { label: "Contact", value: "Contact" },
-    { label: "Signout", value: "Signout" },
+    { label: "Signout", value: "handleLogout" },
   ];
 
   const gridItems = [
@@ -76,6 +82,44 @@ const HomeScreen = ({ route }) => {
       value: "others",
     },
   ];
+  
+  const slideMenuIn = () => {
+    Animated.timing(menuAnimation, {
+      toValue: 0,
+      duration: 250,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  const slideMenuOut = () => {
+    Animated.timing(menuAnimation, {
+      toValue: -300,
+      duration: 250,
+      useNativeDriver: true,
+    }).start(() => setIsMenuVisible(false));
+  };
+
+  const animateMenu = (toValue) => {
+    Animated.timing(menuAnimation, {
+      toValue: toValue,
+      duration: 250,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  const toggleMenu = () => {
+    setIsMenuVisible(!isMenuVisible);
+    animateMenu(isMenuVisible ? -300 : 0);
+  };
+
+  const handleSelectMenuItem = (value) => {
+    if (value === "handleLogout") {
+      setLogoutConfirmationVisible(true);
+    } else {
+      console.log("details: " + userDetails);
+      navigation.navigate(value, { userId : userId });
+    }
+  };
 
   const handleLogout = async () => {
     try {
@@ -89,78 +133,67 @@ const HomeScreen = ({ route }) => {
     }
   };
 
-  const handleIconPress = () => {
-    setDropdownVisible(!isDropdownVisible);
-  };
-
-  const handleSelect = (item) => {
-    setSelectedOption(item.label);
-    setDropdownVisible(false);
-
-    if (item.value === "Signout") {
-      setLogoutConfirmationVisible(true);
-    } else {
-      console.log("Home screen: " + userId);
-      navigation.navigate(item.value, { userId: userId });
-    }
-  };
-
-  const renderDropdown = () => (
-    <View style={styles.dropdown}>
-      {dropdownItems.map((item) => (
-        <TouchableOpacity
-          key={item.value}
-          style={styles.dropdownItem}
-          onPress={() => handleSelect(item)}
-        >
-          <Text>{item.label}</Text>
-        </TouchableOpacity>
-      ))}
-    </View>
-  );
-
-  const renderGridItem = ({ item }) => (
-    <TouchableOpacity
-      style={[
-        styles.gridItem,
-        item.label !== "Home" &&
-          item.label !== "Electronics" &&
-          item.label !== "Vehicle" &&
-          item.label !== "Shopping" &&
-          styles.generalGridItem,
-        item.label === "Professional" && styles.professionalGridItem,
-      ]}
-      onPress={() => handleSelect(item)}
-    >
-      <Image source={item.image} style={styles.gridImage} />
-      <Text style={styles.gridLabel}>{item.label}</Text>
-    </TouchableOpacity>
-  );
-
   return (
     <View style={styles.container}>
+      <Animated.View
+        style={[styles.menu, { transform: [{ translateX: menuAnimation }] }]}
+      >
+        <View style={styles.user}>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate("MyProfile", { userId })
+            }
+            style={{ flexDirection: "row", alignItems: "center" }}
+          >
+            <Avatar.Image
+              source={{
+                uri:
+                  userDetails.profileImageUrl ||
+                  "https://api.adorable.io/avatars/80/abott@adorable.png",
+              }}
+              size={80}
+              style={styles.avatar}
+            />
+            <Text style={styles.userName}>{userDetails.name}</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={closeMenu} style={styles.closeMenu}>
+            <Icon name="close" size={24} color="#000" />
+          </TouchableOpacity>
+        </View>
+
+        {menuItem.map((item) => (
+          <TouchableOpacity
+            key={item.value}
+            onPress={() => handleSelectMenuItem(item.value)}
+          >
+            <Text style={styles.menuItem}>{item.label}</Text>
+          </TouchableOpacity>
+        ))}
+      </Animated.View>
+
       <View style={styles.header}>
-        <TouchableOpacity onPress={handleIconPress}>
-          <Icon
-            name={isDropdownVisible ? "times" : "bars"}
-            size={30}
-            color="#000"
-            style={styles.icon}
-          />
+        <TouchableOpacity onPress={toggleMenu}>
+          <Icon name="bars" size={24} color="#fff" />
         </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => navigation.navigate("MyProfile", { userId })}
-        >
-          <Text style={styles.userName}>{userDetails.name}</Text>
+        <Text style={styles.userName}>{userDetails.name}</Text>
+        <TouchableOpacity onPress={() => setLogoutConfirmationVisible(true)}>
+          <Icon name="sign-out" size={24} color="#fff" />
         </TouchableOpacity>
       </View>
 
-      {isDropdownVisible && renderDropdown()}
-
       <FlatList
         data={gridItems}
-        renderItem={renderGridItem}
-        keyExtractor={(item, index) => index.toString()}
+        renderItem={({ item }) => (
+          <TouchableOpacity
+            style={styles.gridItem}
+            onPress={() => navigation.navigate(item.value)}
+          >
+            <Image source={item.image} style={styles.gridImage} />
+            <Text style={styles.gridLabel}>{item.label}</Text>
+          </TouchableOpacity>
+        )}
+        keyExtractor={(item) => item.value}
         numColumns={3}
         style={styles.grid}
       />
@@ -169,9 +202,7 @@ const HomeScreen = ({ route }) => {
         animationType="slide"
         transparent={true}
         visible={logoutConfirmationVisible}
-        onRequestClose={() => {
-          setLogoutConfirmationVisible(false);
-        }}
+        onRequestClose={() => setLogoutConfirmationVisible(false)}
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
@@ -187,10 +218,7 @@ const HomeScreen = ({ route }) => {
               </TouchableOpacity>
               <TouchableOpacity
                 style={[styles.button, styles.buttonConfirm]}
-                onPress={() => {
-                  handleLogout(); // Move handleLogout here
-                  setLogoutConfirmationVisible(false);
-                }}
+                onPress={handleLogout}
               >
                 <Text style={styles.buttonText}>Confirm</Text>
               </TouchableOpacity>
@@ -205,52 +233,46 @@ const HomeScreen = ({ route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: 20,
-    paddingTop: 40,
-    backgroundColor: "#f0f0f0",
+    backgroundColor: "#ecf0f1",
   },
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: 20,
-    backgroundColor: "#3498db",
-    padding: 15,
-    borderRadius: 15,
+    backgroundColor: "#5682a3",
+    paddingHorizontal: 20,
+    paddingVertical: 15,
   },
-  icon: {
-    marginRight: 10,
-    width: 30,
-    height: 30,
-    resizeMode: "contain",
+  user: {
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 20,
+    flexDirection: "row",
+    paddingTop: 20,
+  },
+  avatar: {
+    backgroundColor: "#f4f4f4",
+    marginRight: 12,
   },
   userName: {
-    fontSize: 20,
     fontWeight: "bold",
-    color: "#fff",
+    fontSize: 18,
+    flex: 1,
   },
-  dropdown: {
+  menu: {
     position: "absolute",
-    top: 90,
-    left: 10,
-    backgroundColor: "#fff",
-    borderRadius: 15,
-    elevation: 5,
+    width: 300,
+    height: "100%",
+    backgroundColor: "#FFF",
+    padding: 20,
+    left: 0,
+    top: 0,
     zIndex: 1,
-    paddingVertical: 10,
-    paddingHorizontal: 15,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
   },
-  dropdownItem: {
-    padding: 15,
+  menuItem: {
+    paddingVertical: 15,
     borderBottomWidth: 1,
-    borderBottomColor: "#ddd",
+    borderBottomColor: "#e5e5e5",
   },
   generalGridItem: {
     backgroundColor: "rgba(255, 0, 0, 0.1)",
@@ -284,13 +306,13 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 22,
+    backgroundColor: "rgba(0,0,0,0.5)",
   },
   modalView: {
     margin: 20,
-    backgroundColor: "#fff",
+    backgroundColor: "white",
     borderRadius: 20,
-    padding: 30,
+    padding: 35,
     alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {
@@ -298,34 +320,32 @@ const styles = StyleSheet.create({
       height: 2,
     },
     shadowOpacity: 0.25,
-    shadowRadius: 4,
+    shadowRadius: 3.84,
     elevation: 5,
   },
   modalText: {
-    marginBottom: 20,
+    marginBottom: 15,
     textAlign: "center",
-    fontSize: 16,
-    color: "#333",
   },
   modalButtons: {
     flexDirection: "row",
-    justifyContent: "space-around",
+    justifyContent: "space-between",
     width: "100%",
   },
   button: {
-    borderRadius: 10,
-    padding: 15,
+    borderRadius: 20,
+    padding: 10,
     elevation: 2,
-    minWidth: 120,
+    width: "40%",
   },
   buttonCancel: {
-    backgroundColor: "#ddd",
+    backgroundColor: "#999",
   },
   buttonConfirm: {
-    backgroundColor: "#3498db",
+    backgroundColor: "#5682a3",
   },
   buttonText: {
-    color: "#fff",
+    color: "white",
     fontWeight: "bold",
     textAlign: "center",
   },
