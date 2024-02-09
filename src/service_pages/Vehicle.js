@@ -8,6 +8,9 @@ const Vehicle = () => {
   const gridItems = [
     { label: 'Three Wheeler', image: require('./../../assets/tuk-tuk.png'), value: 'Three-Wheeler' },
     { label: 'Car', image: require('./../../assets/3d-car.png'), value: 'Car' },
+    { label: 'Ambulance', image: require('./../../assets/ambulance.png'),value: 'Ambulance'},
+    { label: 'Petti Auto', image: require('./../../assets/mini-truck.png'),value: 'Petti Auto'},
+    { label: 'Tipper', image: require('./../../assets/dump-truck.png'),value: 'Tipper'},
   ];
 
   const handleSelect = (item) => {
