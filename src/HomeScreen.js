@@ -170,10 +170,17 @@ const HomeScreen = ({ route }) => {
       </Animated.View>
 
       <View style={styles.header}>
-        <TouchableOpacity onPress={toggleMenu}>
-          <Icon name="bars" size={24} color="#5A5A5A" />
-        </TouchableOpacity>
-        <Text style={styles.userName}>{userDetails.name}</Text>
+        <View style={styles.menuIcon}>
+          <TouchableOpacity onPress={toggleMenu}>
+            <Icon name="bars" size={24} color="#5A5A5A" />
+          </TouchableOpacity>
+        </View>
+        <View style={styles.logoContainer}>
+          <Image
+            source={require("./../assets/logo.png")}
+            style={styles.logoImage}
+          />
+        </View>
       </View>
 
       <FlatList
@@ -242,8 +249,18 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#FFF",
     paddingHorizontal: 20,
-    paddingVertical: 15,
-    paddingTop: 50,
+    paddingTop: 45,
+  },
+  menuIcon: {
+    marginLeft: 5,
+  },
+  logoContainer: {
+    flex: 1,
+    alignItems: "center",
+  },
+  logoImage: {
+    width: 150,
+    height: 55,
   },
   user: {
     alignItems: "center",
