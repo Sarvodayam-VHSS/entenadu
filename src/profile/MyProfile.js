@@ -3,8 +3,7 @@ import { SafeAreaView, ScrollView, StyleSheet, View } from 'react-native';
 import { Avatar, Title, Card } from 'react-native-paper';
 import ProfileItem from './ProfileItem'; 
 import { get } from '@react-native-firebase/database';
-import { getDownloadURL } from "@firebase/storage";
-import { dataRef, storage } from '../../Firebase';
+import { dataRef } from '../../Firebase';
 
 const MyProfile = ({ route }) => {
   const { userId } = route.params;
@@ -12,27 +11,21 @@ const MyProfile = ({ route }) => {
   const [userInfo, setUserInfo] = useState(null);
 
   useEffect(() => {
+    const userRef = dataRef.ref(`registrations/${userId}`);
+
     const fetchData = async () => {
       try {
-        const snapshot = await get(dataRef.ref(`registrations/${userId}`));
+        const snapshot = await get(userRef);
         if (snapshot.exists()) {
           const userData = snapshot.val();
-          const imagePath = `profile_images/${userId}`;
-          const imageRef = storage.child(imagePath);
-          try {
-            const imageUrl = await getDownloadURL(imageRef);
-            userData.imageUrl = imageUrl;
-            const dobDate = new Date(userData.dob);
-            const today = new Date();
-            const age = Math.floor(
-              (today - dobDate) / (365.25 * 24 * 60 * 60 * 1000)
-            );
-            userData.age = age;
-            setUserInfo(userData);
-          } catch (error) {
-            console.error("Error fetching image:", error);
-            setUserInfo(userData); // Still set user info even if image fetch fails
-          }
+          // Convert dob to age
+          const dobDate = new Date(userData.dob);
+          const today = new Date();
+          const age = Math.floor(
+            (today - dobDate) / (365.25 * 24 * 60 * 60 * 1000)
+          );
+          userData.age = age;
+          setUserInfo(userData);
         }
       } catch (error) {
         console.error('Error fetching user data:', error);
@@ -48,7 +41,7 @@ const MyProfile = ({ route }) => {
       <ScrollView>
         <View style={styles.userInfoSection}>
           <Avatar.Image 
-            source={{ uri: userInfo?.imageUrl || 'https://api.adorable.io/avatars/80/abott@adorable.png' }}
+            source={{ uri: userInfo?.profileImageUrl || 'https://api.adorable.io/avatars/80/abott@adorable.png' }}
             size={100}
             style={{ backgroundColor: '#f4f4f4' }}
           />

@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, FlatList, Image, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  FlatList,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 import {
   query,
   orderByChild,
@@ -7,8 +14,7 @@ import {
   endAt,
   onValue,
 } from "@firebase/database";
-import { getDownloadURL } from "@firebase/storage";
-import { dataRef, storage } from "../../Firebase";
+import { dataRef } from "../../Firebase";
 
 const UsersList = ({ route, navigation }) => {
   const [users, setUsers] = useState([]);
@@ -31,23 +37,13 @@ const UsersList = ({ route, navigation }) => {
 
         for (const user of usersArray) {
           user.userID = user.email.split("@")[0] + user.phone;
-          const imagePath = `profile_images/${user.userID}`;
-          const imageRef = storage.child(imagePath);
-
-          try {
-            const imageUrl = await getDownloadURL(imageRef);
-            user.imageUrl = imageUrl;
-
-            // Convert dob to age
-            const dobDate = new Date(user.dob);
-            const today = new Date();
-            const age = Math.floor(
-              (today - dobDate) / (365.25 * 24 * 60 * 60 * 1000)
-            );
-            user.age = age;
-          } catch (error) {
-            console.error("Error fetching image:", error);
-          }
+          // Convert dob to age
+          const dobDate = new Date(user.dob);
+          const today = new Date();
+          const age = Math.floor(
+            (today - dobDate) / (365.25 * 24 * 60 * 60 * 1000)
+          );
+          user.age = age;
         }
 
         setUsers(usersArray);
@@ -62,7 +58,7 @@ const UsersList = ({ route, navigation }) => {
   }, [skillSector]);
 
   const handleCardPress = (userId) => {
-    navigation.navigate('UsersProfile', { userId });
+    navigation.navigate("UsersProfile", { userId });
   };
 
   const renderUserCard = ({ item, index }) => (
@@ -70,7 +66,7 @@ const UsersList = ({ route, navigation }) => {
       style={styles.card}
       onPress={() => handleCardPress(item.userID)}
     >
-      <Image source={{ uri: item.imageUrl }} style={styles.profileImage} />
+      <Image source={{ uri: item.profileImageUrl }} style={styles.profileImage} />
       <View style={styles.userInfo}>
         <Text style={styles.boldText}>Name: {item.name}</Text>
         <Text style={styles.boldText}>Age: {item.age}</Text>
