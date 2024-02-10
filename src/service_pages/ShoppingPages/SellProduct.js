@@ -12,6 +12,7 @@ import {
 } from "react-native";
 import { Camera } from "expo-camera";
 import * as ImagePicker from "expo-image-picker";
+import * as FileSystem from "expo-file-system";
 import Toast from "react-native-toast-message";
 import { dataRef, storage } from "../../../Firebase";
 
@@ -51,6 +52,12 @@ const SellProduct = ({ route }) => {
     }));
   };
 
+  const getFileSize = async (uri) => {
+    const fileInfo = await FileSystem.getInfoAsync(uri);
+    const fileSize = fileInfo.size / (1024 * 1024);
+    return fileSize;
+  };
+
   const openImagePickerOptions = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
@@ -67,14 +74,22 @@ const SellProduct = ({ route }) => {
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [4, 3],
-      quality: 1,
+      quality: 0.5,
     });
 
     if (!result.canceled) {
-      setProduct((prevProduct) => ({
-        ...prevProduct,
-        image: result.assets[0].uri,
-      }));
+      const fileSize = await getFileSize(result.assets[0].uri);
+      if (fileSize > 2) {
+        showToast(
+          "error",
+          "File size exceeds 2MB. Please choose a smaller image."
+        );
+      } else {
+        setProduct((prevProduct) => ({
+          ...prevProduct,
+          image: result.assets[0].uri,
+        }));
+      }
     }
   };
 
@@ -84,14 +99,22 @@ const SellProduct = ({ route }) => {
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
         aspect: [4, 3],
-        quality: 1,
+        quality: 0.5,
       });
 
       if (!result.canceled) {
-        setProduct((prevProduct) => ({
-          ...prevProduct,
-          image: result.assets[0].uri,
-        }));
+        const fileSize = await getFileSize(result.assets[0].uri);
+        if (fileSize > 2) {
+          showToast(
+            "error",
+            "File size exceeds 2MB. Please choose a smaller image."
+          );
+        } else {
+          setProduct((prevProduct) => ({
+            ...prevProduct,
+            image: result.assets[0].uri,
+          }));
+        }
       }
     } else {
       Alert.alert(
