@@ -13,22 +13,19 @@ const LoadingScreen = () => {
   }, []);
 
   const fetchQuote = () => {
-    axios.get('https://api.quotable.io/random')
+    axios.get('http://api.quotable.io/random')
       .then((response) => {
         const { content, author } = response.data;
         const formattedQuote = `"${content}" - ${author}`;
         setQuote(formattedQuote);
-        setIsLoading(false); // Set loading to false after fetching quote
+        setIsLoading(false);
         
-        // Simulate a short delay then navigate or change state
         setTimeout(() => {
-          // Navigate to another screen or update state here
-          // Example: navigation.navigate('HomeScreen');
-        }, 2000); // 2 seconds delay
+        }, 2000);
       })
       .catch((error) => {
         console.error('Error fetching quote:', error);
-        setIsLoading(false); // Ensure to set loading to false even if there's an error
+        setIsLoading(false);
       });
   };
 
