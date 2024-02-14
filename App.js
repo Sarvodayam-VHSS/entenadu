@@ -25,6 +25,7 @@ import MyProfile from "./src/profile/MyProfile";
 import UsersProfile from "./src/profile/UsersProfile";
 import UsersList from "./src/functions/UsersList";
 import ShopProduct from "./src/service_pages/ShoppingPages/ShopProduct";
+import EditProduct from "./src/service_pages/ShoppingPages/EditProduct";
 import Shopping from "./src/service_pages/ShoppingPages/Shopping";
 import ShoppingList from "./src/service_pages/ShoppingPages/ShoppingList";
 import SellProduct from "./src/service_pages/ShoppingPages/SellProduct";
@@ -80,6 +81,7 @@ const App = () => {
               <Stack.Screen name="shopping" component={Shopping} />
               <Stack.Screen name="ShoppingList" component={ShoppingList} />
               <Stack.Screen name="ShopProduct" component={ShopProduct} />
+              <Stack.Screen name="EditProduct" component={EditProduct} />
               <Stack.Screen name="SellProduct" component={SellProduct} />
               <Stack.Screen name="MyProduct" component={MyProduct} />
 

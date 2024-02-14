@@ -32,8 +32,6 @@ const MyProduct = ({ route }) => {
               ...product,
             })
           );
-
-          // Filter products based on userId
           const filteredProducts = productsArray.filter(
             (product) => product.userId === userId
           );
@@ -56,7 +54,7 @@ const MyProduct = ({ route }) => {
   };
 
   const handleSelect = (id) => {
-    navigation.navigate("ShopProduct", { productId: id });
+    navigation.navigate("EditProduct", { productId: id });
   };
 
   const renderItem = ({ item }) => (
