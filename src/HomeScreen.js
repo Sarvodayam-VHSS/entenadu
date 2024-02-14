@@ -31,7 +31,7 @@ const HomeScreen = ({ route }) => {
     { label: "Reminders", value: "Reminders" },
     { label: "Family Budget", value: "Budget" },
     { label: "About Us", value: "Aboutus" },
-    { label: "Contact", value: "Contact" },
+    { label: "Contact", value: "contact" },
     { label: "Signout", value: "handleLogout" },
   ];
 
