@@ -193,6 +193,7 @@ const HomeScreen = ({ route }) => {
                 item.label !== "Electronics" &&
                 item.label !== "Vehicle" &&
                 item.label !== "Shopping" &&
+                item.label !== "Professional" &&
                 styles.generalGridItem,
             ]}
             onPress={() => navigation.navigate(item.value, { userId: userId })}

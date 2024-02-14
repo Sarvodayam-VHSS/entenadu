@@ -4,7 +4,7 @@ import { View, Text } from 'react-native';
 const Budget = () => {
   return (
     <View>
-      <Text>Family Budget Screen</Text>
+      <Text>Coming soon</Text>
     </View>
   );
 };

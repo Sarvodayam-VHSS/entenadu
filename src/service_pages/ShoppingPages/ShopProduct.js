@@ -77,13 +77,13 @@ const styles = StyleSheet.create({
     backgroundColor: "#F5F5F5",
   },
   imageGallery: {
-    height: 400,
+    width: "100%",
+    height: 300,
     marginBottom: 16,
   },
   galleryImage: {
     width: "100%",
     height: "100%",
-    resizeMode: "cover",
     borderRadius: 12,
   },
   productDetails: {

@@ -4,7 +4,7 @@ import { View, Text } from 'react-native';
 const ToDoList = () => {
   return (
     <View>
-      <Text>To-Do List Screen</Text>
+      <Text>Coming soon</Text>
     </View>
   );
 };

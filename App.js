@@ -69,11 +69,11 @@ const App = () => {
               <Stack.Screen name="others" component={Others} />
               <Stack.Screen name="professional" component={Professional} />
               <Stack.Screen name="vehicle" component={Vehicle} />
-              <Stack.Screen name="aboutus" component={Aboutus} />
-              <Stack.Screen name="budget" component={Budget} />
+              <Stack.Screen name="Aboutus" component={Aboutus} />
+              <Stack.Screen name="Budget" component={Budget} />
               <Stack.Screen name="contact" component={Contact} />
-              <Stack.Screen name="reminders" component={Reminders} />
-              <Stack.Screen name="toDoList" component={ToDoList} />
+              <Stack.Screen name="Reminders" component={Reminders} />
+              <Stack.Screen name="ToDoList" component={ToDoList} />
               <Stack.Screen name="edit" component={edit} />
               <Stack.Screen name="MyProfile" component={MyProfile} />
               <Stack.Screen name="UsersProfile" component={UsersProfile} />
