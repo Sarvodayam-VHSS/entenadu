@@ -26,7 +26,10 @@ const ProfileItem = ({ label, value, icon, userId }) => {
   return (
     <View style={styles.container}>
       <View style={styles.labelValueContainer}>
-        <Text style={styles.label}>{label}:</Text>
+        <View style={styles.labelContainer}>
+          <Text style={styles.label}>{label}:</Text>
+          
+        </View>
         {!editing ? (
           <TouchableOpacity onPress={handleTap}>
             <Text style={styles.value}>{value}</Text>
@@ -40,8 +43,8 @@ const ProfileItem = ({ label, value, icon, userId }) => {
         )}
       </View>
       {editing && (
-        <TouchableOpacity onPress={handleSave} style={styles.editIcon}>
-          <Icon name="check" size={20} color="#0066ff" />
+        <TouchableOpacity onPress={handleSave} style={styles.saveButton}>
+          <Text style={styles.saveButtonText}>Save</Text>
         </TouchableOpacity>
       )}
     </View>
@@ -50,12 +53,14 @@ const ProfileItem = ({ label, value, icon, userId }) => {
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: 'column',
     marginBottom: 10,
   },
   labelValueContainer: {
+      flexDirection: 'column',
+
+  },
+  labelContainer: {
     flexDirection: 'row',
     alignItems: 'center',
   },
@@ -63,9 +68,13 @@ const styles = StyleSheet.create({
     color: '#333',
     fontWeight: 'bold',
     marginRight: 5,
+    
   },
   value: {
     color: '#777',
+  },
+  icon: {
+    marginLeft: 5,
   },
   editableText: {
     flex: 1,
@@ -76,8 +85,14 @@ const styles = StyleSheet.create({
     borderColor: '#0066ff',
     color: '#333',
   },
-  editIcon: {
-    marginLeft: 10,
+  saveButton: {
+    backgroundColor: '#0066ff',
+    borderRadius: 5,
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+  },
+  saveButtonText: {
+    color: '#fff',
   },
 });
 

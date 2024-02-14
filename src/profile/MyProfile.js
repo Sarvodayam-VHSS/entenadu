@@ -4,6 +4,7 @@ import { Avatar, Title, Card } from 'react-native-paper';
 import ProfileItem from './ProfileItem'; 
 import { get } from '@react-native-firebase/database';
 import { dataRef } from '../../Firebase';
+import Address from './AProfileItem'
 
 const MyProfile = ({ route }) => {
   const { userId } = route.params;
@@ -52,7 +53,7 @@ const MyProfile = ({ route }) => {
         <Card style={styles.card}>
           <Card.Content>
             <ProfileItem label="Name" value={userInfo?.name} icon="account" userId={userId} />
-            <ProfileItem label="Address" value={userInfo?.address} icon="map-marker" userId={userId} />
+            <Address label="Address" numberOfLines={4} value={userInfo?.address} icon="map-marker" userId={userId} />
             <ProfileItem label="Pincode" value={userInfo?.pincode} icon="pin" userId={userId} />
             <ProfileItem label="Date of Birth" value={userInfo?.dob} icon="calendar" userId={userId} />
             <ProfileItem label="Phone" value={userInfo?.phone} icon="phone" userId={userId} />
@@ -99,6 +100,7 @@ const styles = StyleSheet.create({
     shadowRadius: 8,
     elevation: 4,
   },
+  
 });
 
 export default MyProfile;
