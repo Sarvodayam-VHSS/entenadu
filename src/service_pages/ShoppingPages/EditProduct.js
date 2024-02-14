@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Linking,
   TextInput,
+  Picker,
 } from "react-native";
 import { dataRef } from "../../../Firebase";
 
@@ -16,6 +17,7 @@ const EditProduct = ({ route }) => {
   const [product, setProduct] = useState(null);
   const [editMode, setEditMode] = useState(false);
   const [editedProduct, setEditedProduct] = useState(null);
+  const [availability, setAvailability] = useState("Available");
 
   useEffect(() => {
     const fetchProductData = async () => {
@@ -26,6 +28,7 @@ const EditProduct = ({ route }) => {
         const productData = productSnapshot.val();
         setProduct(productData);
         setEditedProduct(productData);
+        setAvailability(productData?.availability || "Available");
       } catch (error) {
         console.error("Error fetching product data:", error.message);
       }
@@ -49,14 +52,16 @@ const EditProduct = ({ route }) => {
   };
 
   const handleSave = () => {
-    // Save the edited product to the database
-    // For simplicity, I'm not implementing database save logic here
     setProduct(editedProduct);
     setEditMode(false);
   };
 
   const handleChange = (field, value) => {
-    setEditedProduct({ ...editedProduct, [field]: value });
+    if (field === "availability") {
+      setAvailability(value);
+    } else {
+      setEditedProduct({ ...editedProduct, [field]: value });
+    }
   };
 
   return (
@@ -69,6 +74,7 @@ const EditProduct = ({ route }) => {
           />
         </View>
         <View style={styles.productDetails}>
+          <Text style={styles.fieldLabel}>Name:</Text>
           {editMode ? (
             <TextInput
               style={styles.input}
@@ -78,26 +84,53 @@ const EditProduct = ({ route }) => {
           ) : (
             <Text style={styles.productName}>{product?.name}</Text>
           )}
-          <Text style={styles.productAmount}>
-            ₹{editMode ? editedProduct?.amount : product?.amount}
-          </Text>
-          <Text style={styles.productSeller}>
-            Seller: {product?.seller}
-          </Text>
+          <Text style={styles.fieldLabel}>Amount:</Text>
           {editMode ? (
             <TextInput
               style={styles.input}
+              value={editedProduct?.amount}
+              onChangeText={(text) => handleChange("amount", text)}
+              keyboardType="numeric"
+            />
+          ) : (
+            <Text style={styles.productAmount}>
+              ₹{product?.amount}
+            </Text>
+          )}
+          <Text style={styles.fieldLabel}>Description:</Text>
+          {editMode ? (
+            <TextInput
+              style={[styles.input, styles.multilineInput]}
               value={editedProduct?.description}
               onChangeText={(text) => handleChange("description", text)}
+              multiline={true}
             />
           ) : (
             <Text style={styles.productDescription}>
               {product?.description}
             </Text>
           )}
-          <Text style={styles.availabilityText}>
-            {product?.availability}
-          </Text>
+          <Text style={styles.fieldLabel}>Availability:</Text>
+          {editMode ? (
+            <Picker
+              selectedValue={availability}
+              onValueChange={(itemValue) => handleChange("availability", itemValue)}
+              style={styles.picker}
+            >
+              <Picker.Item label="Available" value="Available" color="#22C55E" />
+              <Picker.Item label="Limited" value="Limited" color="#D28A31" />
+              <Picker.Item label="Unavailable" value="Unavailable" color="red" />
+            </Picker>
+          ) : (
+            <Text style={[styles.availabilityText, { color: getColorByAvailability(availability) }]}>
+              {availability}
+            </Text>
+          )}
+          {!editMode && (
+            <Text style={styles.productSeller}>
+              Seller: {product?.seller}
+            </Text>
+          )}
         </View>
       </ScrollView>
       {editMode ? (
@@ -109,11 +142,22 @@ const EditProduct = ({ route }) => {
           <Text style={styles.buttonText}>Edit</Text>
         </TouchableOpacity>
       )}
-      <TouchableOpacity style={styles.buyNowButton} onPress={handleBuyNow}>
-        <Text style={styles.buttonText}>Contact Now</Text>
-      </TouchableOpacity>
+
     </View>
   );
+};
+
+const getColorByAvailability = (availability) => {
+  switch (availability) {
+    case "Available":
+      return "#22C55E";
+    case "Limited":
+      return "#D28A31";
+    case "Unavailable":
+      return "red";
+    default:
+      return "#000000"; // default color
+  }
 };
 
 const styles = StyleSheet.create({
@@ -151,6 +195,7 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   productSeller: {
+    marginTop:10,
     fontSize: 20,
     color: "#555",
     marginBottom: 10,
@@ -163,7 +208,6 @@ const styles = StyleSheet.create({
   availabilityText: {
     fontSize: 18,
     fontWeight: "bold",
-    color: "#22C55E",
   },
   input: {
     height: 40,
@@ -172,6 +216,20 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginBottom: 10,
     paddingHorizontal: 10,
+  },
+  multilineInput: {
+    height: 100, // Adjust the height for multiline input
+    textAlignVertical: "top", // Place the cursor at the top
+  },
+  fieldLabel: {
+    fontSize: 16,
+    fontWeight: "bold",
+    marginBottom: 6,
+    color: "#555",
+  },
+  picker: {
+    height: 40,
+    marginBottom: 10,
   },
   editButton: {
     justifyContent: "center",
