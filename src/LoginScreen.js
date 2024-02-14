@@ -71,7 +71,7 @@ const LoginScreen = () => {
           // Save userId in AsyncStorage -token
           await AsyncStorage.setItem("userId", userId);
 
-          navigation.replace("Home", { userDetails });
+          navigation.replace("Home", { userDetails, userId });
         } else {
           setError("Invalid email, mobile, or password");
         }
