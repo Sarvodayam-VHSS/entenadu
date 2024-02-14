@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { SafeAreaView, ScrollView, StyleSheet, View } from 'react-native';
+import { SafeAreaView, ScrollView, StyleSheet, View, TouchableOpacity, Image } from 'react-native';
 import { Avatar, Title, Card } from 'react-native-paper';
+import * as ImagePicker from 'expo-image-picker';
 import ProfileItem from './ProfileItem'; 
 import { get } from '@react-native-firebase/database';
 import { dataRef } from '../../Firebase';
-import Address from './AProfileItem'
+import Address from './AProfileItem';
 
 const MyProfile = ({ route }) => {
   const { userId } = route.params;
@@ -19,12 +20,9 @@ const MyProfile = ({ route }) => {
         const snapshot = await get(userRef);
         if (snapshot.exists()) {
           const userData = snapshot.val();
-          // Convert dob to age
           const dobDate = new Date(userData.dob);
           const today = new Date();
-          const age = Math.floor(
-            (today - dobDate) / (365.25 * 24 * 60 * 60 * 1000)
-          );
+          const age = Math.floor((today - dobDate) / (365.25 * 24 * 60 * 60 * 1000));
           userData.age = age;
           setUserInfo(userData);
         }
@@ -34,18 +32,38 @@ const MyProfile = ({ route }) => {
         setLoading(false);
       }
     };
+
     fetchData();
   }, [userId]);
+
+  const handleChooseImage = async () => {
+    try {
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
+      });
+
+      if (!result.cancelled) {
+        setUserInfo({ ...userInfo, profileImageUrl: result.uri });
+      }
+    } catch (error) {
+      console.error('Error choosing image:', error);
+    }
+  };
 
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
         <View style={styles.userInfoSection}>
-          <Avatar.Image 
-            source={{ uri: userInfo?.profileImageUrl || 'https://api.adorable.io/avatars/80/abott@adorable.png' }}
-            size={100}
-            style={{ backgroundColor: '#f4f4f4' }}
-          />
+        <TouchableOpacity onPress={handleChooseImage}>
+            <Avatar.Image 
+              source={{ uri: userInfo?.profileImageUrl || 'https://api.adorable.io/avatars/80/abott@adorable.png' }}
+              size={100}
+              style={{ backgroundColor: '#f4f4f4' }}
+            />
+          </TouchableOpacity>
           <View style={{ marginLeft: 20 }}>
             <Title style={styles.title}>{userInfo?.name}</Title>
           </View>
@@ -100,7 +118,6 @@ const styles = StyleSheet.create({
     shadowRadius: 8,
     elevation: 4,
   },
-  
 });
 
 export default MyProfile;
