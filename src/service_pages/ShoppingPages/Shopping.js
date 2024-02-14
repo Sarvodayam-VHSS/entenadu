@@ -24,6 +24,11 @@ const Shopping = ({ route }) => {
       image: require("./../../../assets/selling.png"),
       value: "sell",
     },
+    {
+      label: "My Products",
+      image: require("./../../../assets/demonstration.png"),
+      value: "MyProduct",
+    },
   ];
 
   const handleSelect = (item) => {
@@ -31,6 +36,8 @@ const Shopping = ({ route }) => {
       navigation.navigate("ShoppingList", { userId: userId });
     } else if (item.value === "sell") {
       navigation.navigate("SellProduct", { userId: userId });
+    }else if (item.value === "MyProduct") {
+      navigation.navigate("MyProduct", { userId: userId });
     }
   };
 

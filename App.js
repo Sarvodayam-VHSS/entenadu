@@ -28,6 +28,7 @@ import ShopProduct from "./src/service_pages/ShoppingPages/ShopProduct";
 import Shopping from "./src/service_pages/ShoppingPages/Shopping";
 import ShoppingList from "./src/service_pages/ShoppingPages/ShoppingList";
 import SellProduct from "./src/service_pages/ShoppingPages/SellProduct";
+import MyProduct from "./src/service_pages/ShoppingPages/MyProduct";
 
 const Stack = createStackNavigator();
 
@@ -80,6 +81,7 @@ const App = () => {
               <Stack.Screen name="ShoppingList" component={ShoppingList} />
               <Stack.Screen name="ShopProduct" component={ShopProduct} />
               <Stack.Screen name="SellProduct" component={SellProduct} />
+              <Stack.Screen name="MyProduct" component={MyProduct} />
 
               <Stack.Screen
                 name="UsersList"

@@ -249,7 +249,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#FFF",
     paddingHorizontal: 20,
-    paddingTop: 45,
+    paddingTop: 10,
   },
   menuIcon: {
     marginLeft: 5,
