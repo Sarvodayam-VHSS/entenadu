@@ -14,9 +14,10 @@ import { dataRef } from "../../../Firebase";
 const { width } = Dimensions.get("window");
 const cardWidth = (width - 32) / 2;
 
-const MyProduct = () => {
+const MyProduct = ({ route }) => {
   const [products, setProducts] = useState([]);
   const navigation = useNavigation();
+  const { userId } = route.params;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -31,7 +32,13 @@ const MyProduct = () => {
               ...product,
             })
           );
-          setProducts(productsArray);
+
+          // Filter products based on userId
+          const filteredProducts = productsArray.filter(
+            (product) => product.userId === userId
+          );
+
+          setProducts(filteredProducts);
         }
       } catch (error) {
         console.error("Error fetching products:", error);
@@ -39,7 +46,7 @@ const MyProduct = () => {
     };
 
     fetchData();
-  }, []);
+  }, [userId]);
 
   const truncatedName = (name, maxLength) => {
     if (name.length > maxLength) {
