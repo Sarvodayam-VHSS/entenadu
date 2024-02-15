@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, Image, ActivityIndicator, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
+import { API_QUOTE } from "@env";
 
 const LoadingScreen = () => {
   const navigation = useNavigation();
@@ -13,7 +14,7 @@ const LoadingScreen = () => {
   }, []);
 
   const fetchQuote = () => {
-    axios.get('http://api.quotable.io/random')
+    axios.get(API_QUOTE)
       .then((response) => {
         const { content, author } = response.data;
         const formattedQuote = `"${content}" - ${author}`;
@@ -34,7 +35,7 @@ const LoadingScreen = () => {
       <View style={styles.contentContainer}>
         <Text style={styles.welcomeText}>Welcome</Text>
         <Image
-          source={require('../assets/favicon.png')} // Replace with the path to your logo
+          source={require('../assets/favicon.png')}
           style={styles.logo}
           resizeMode="contain"
         />
@@ -66,24 +67,24 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   logo: {
-    width: 200, // Adjust the width and height based on your logo dimensions
+    width: 200,
     height: 200,
-    marginBottom: 10, // Decrease the marginBottom for less gap
+    marginBottom: 10,
   },
   loadingContainer: {
-    marginTop: 10, // Adjust the marginTop to set the desired gap
+    marginTop: 10,
     alignItems: 'center',
   },
   quoteText: {
-    marginTop: 20, // Add marginTop to create a gap
+    marginTop: 20,
     fontSize: 18,
     textAlign: 'center',
     paddingHorizontal: 20,
   },
   poweredByText: {
     fontSize: 12,
-    color: '#888', // Adjust the color to your preference
-    marginTop: 20, // Add marginTop to create a gap
+    color: '#888',
+    marginTop: 20,
   },
 });
 
