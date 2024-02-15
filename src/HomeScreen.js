@@ -116,7 +116,7 @@ const HomeScreen = ({ route }) => {
     if (value === "handleLogout") {
       setLogoutConfirmationVisible(true);
     } else {
-      navigation.navigate(value, { userId: userId });
+      navigation.navigate(value, { userId: userId, userDetails: userDetails });
     }
   };
 
