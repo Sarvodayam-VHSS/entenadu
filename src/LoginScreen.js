@@ -11,6 +11,7 @@ import { useNavigation } from "@react-navigation/native";
 import { Linking } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+
 import { dataRef } from "../Firebase";
 
 const LoginScreen = () => {
@@ -30,7 +31,7 @@ const LoginScreen = () => {
       const userId = await AsyncStorage.getItem("userId");
       if (userId) {
         const userDetailsSnapshot = await dataRef
-          .ref(`registrations/${userId}`)
+          .ref(`user/${userId}`)
           .once("value");
         const userDetails = userDetailsSnapshot.val();
 
@@ -61,7 +62,7 @@ const LoginScreen = () => {
 
         // Check if the userID exists
         const userDetailsSnapshot = await dataRef
-          .ref(`registrations/${userId}`)
+          .ref(`user/${userId}`)
           .once("value");
 
         const userDetails = userDetailsSnapshot.val();
@@ -87,8 +88,9 @@ const LoginScreen = () => {
   };
 
   const handleNavigateToRegistration = () => {
-    Linking.openURL("https://sarvodayam.in/entenadu/registration");
+    navigation.navigate("Register"); 
   };
+  
 
   return (
     <View style={styles.container}>

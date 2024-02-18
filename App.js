@@ -6,6 +6,8 @@ import LoadingScreen from "./src/LoadingScreen";
 import LoginScreen from "./src/LoginScreen";
 import HomeScreen from "./src/HomeScreen";
 import HomeServ from "./src/service_pages/HomeServ";
+import Register from "./src/Register";
+
 
 import Agric from "./src/service_pages/Agric";
 import Aware from "./src/service_pages/Aware";
@@ -62,6 +64,7 @@ const App = () => {
                 component={HomeScreen}
                 options={{ headerShown: false }}
               />
+              <Stack.Screen name="Register" component={Register} />
               <Stack.Screen name="homeServ" component={HomeServ} />
               <Stack.Screen name="agric" component={Agric} />
               <Stack.Screen name="aware" component={Aware} />
