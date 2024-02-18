@@ -130,7 +130,6 @@ const LoginScreen = () => {
             <TouchableOpacity onPress={handleNavigateToRegistration}>
               <Text style={styles.newUserButton}>New User? Register Here</Text>
             </TouchableOpacity>
-            <Text style={styles.redtext}>Note: Default Password is 'password'</Text>
           </ScrollView>
         </>
       )}

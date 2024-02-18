@@ -8,7 +8,6 @@ import {
   ScrollView,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { dataRef } from "../Firebase";
 
 const Register = () => {
@@ -56,7 +55,6 @@ const Register = () => {
           return;
         }
 
-        // Save user details in Firebase
         await dataRef.ref(`user/${userId}`).set({
           name,
           email,
@@ -64,10 +62,7 @@ const Register = () => {
           password,
         });
 
-        // Save userId in AsyncStorage
-        await AsyncStorage.setItem("userId", userId);
-
-        navigation.replace("Home", { userDetails: { name, email, mobile }, userId });
+        navigation.replace("Login");
       } else {
         setError("Please fill in all fields");
       }
