@@ -6,9 +6,11 @@ import {
   StyleSheet,
   TouchableOpacity,
   ScrollView,
+  Image,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { dataRef } from "../Firebase";
+import * as ImagePicker from 'expo-image-picker';
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -17,6 +19,7 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
+  const [profileImage, setProfileImage] = useState(null); 
 
   const navigation = useNavigation();
 
@@ -60,6 +63,14 @@ const Register = () => {
           email,
           mobile,
           password,
+          profileImage, // Save the profile image URI in the database
+        });
+
+        await dataRef.ref(`user/${userId}`).set({
+          name,
+          email,
+          mobile,
+          password,
         });
 
         navigation.replace("Login");
@@ -71,7 +82,22 @@ const Register = () => {
       setError("Error during registration");
     }
   };
+  const handleImagePick = async () => {
+    try {
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [1, 1],
+        quality: 1,
+      });
 
+      if (!result.cancelled) {
+        setProfileImage(result.uri);
+      }
+    } catch (error) {
+      console.error("Image picking error:", error.message);
+    }
+  };
   const handleNavigateToLogin = () => {
     navigation.replace("Login");
   };
@@ -80,6 +106,15 @@ const Register = () => {
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.container}>
         <Text style={styles.title}>Register</Text>
+        <TouchableOpacity onPress={handleImagePick}>
+          <View style={styles.profileImageContainer}>
+            {profileImage ? (
+              <Image source={{ uri: profileImage }} style={styles.profileImage} />
+            ) : (
+              <Text style={styles.profileImageText}>Add Profile Picture</Text>
+            )}
+          </View>
+        </TouchableOpacity>
         <TextInput
           style={styles.input}
           placeholder="Name"
@@ -178,6 +213,24 @@ const styles = StyleSheet.create({
     color: "#007BFF",
     marginTop: 20,
     fontSize: 16,
+  },
+  profileImageContainer: {
+    width: 120,
+    height: 120,
+    borderRadius: 60,
+    backgroundColor: "#ddd",
+    justifyContent: "center",
+    alignItems: "center",
+    marginVertical: 20,
+  },
+  profileImage: {
+    width: 120,
+    height: 120,
+    borderRadius: 60,
+  },
+  profileImageText: {
+    fontSize: 16,
+    color: "#333",
   },
 });
 
