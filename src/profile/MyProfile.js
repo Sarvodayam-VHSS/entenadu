@@ -5,7 +5,6 @@ import * as ImagePicker from 'expo-image-picker';
 import ProfileItem from './ProfileItem'; 
 import { get } from '@react-native-firebase/database';
 import { dataRef } from '../../Firebase';
-import Address from './AProfileItem';
 
 const MyProfile = ({ route }) => {
   const { userId } = route.params;
@@ -13,7 +12,7 @@ const MyProfile = ({ route }) => {
   const [userInfo, setUserInfo] = useState(null);
 
   useEffect(() => {
-    const userRef = dataRef.ref(`registrations/${userId}`);
+    const userRef = dataRef.ref(`app_users/${userId}`);
 
     const fetchData = async () => {
       try {
@@ -71,20 +70,8 @@ const MyProfile = ({ route }) => {
         <Card style={styles.card}>
           <Card.Content>
             <ProfileItem label="Name" value={userInfo?.name} icon="account" userId={userId} />
-            <Address label="Address" numberOfLines={4} value={userInfo?.address} icon="map-marker" userId={userId} />
-            <ProfileItem label="Pincode" value={userInfo?.pincode} icon="pin" userId={userId} />
-            <ProfileItem label="Date of Birth" value={userInfo?.dob} icon="calendar" userId={userId} />
             <ProfileItem label="Phone" value={userInfo?.phone} icon="phone" userId={userId} />
             <ProfileItem label="Email" value={userInfo?.email} icon="email" userId={userId} />
-            <ProfileItem label="Aadhaar No" value={userInfo?.aadhaarNo} icon="card-account-details" userId={userId} />
-            <ProfileItem label="Education" value={userInfo?.educationQualification} icon="school" userId={userId} />
-            <ProfileItem label="Skill Sector" value={userInfo?.skillSector} icon="briefcase" userId={userId} />
-            <ProfileItem label="Blood Group" value={userInfo?.bloodGroup} icon="water" userId={userId} />
-            <ProfileItem label="Experience" value={userInfo?.experience} icon="history" userId={userId} />
-            <ProfileItem label="Municipality/Panchayath" value={userInfo?.municipality_panchayath} icon="office-building" userId={userId} />
-            <ProfileItem label="Ward No" value={userInfo?.wardNo} icon="numeric" userId={userId} />
-            <ProfileItem label="Place" value={userInfo?.place} icon="home-map-marker" userId={userId} />
-            <ProfileItem label="Land Mark" value={userInfo?.landMark} icon="map-marker-radius" userId={userId} />
           </Card.Content>
         </Card>
       </ScrollView>

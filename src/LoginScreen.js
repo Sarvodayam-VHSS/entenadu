@@ -31,7 +31,7 @@ const LoginScreen = () => {
       const userId = await AsyncStorage.getItem("userId");
       if (userId) {
         const userDetailsSnapshot = await dataRef
-          .ref(`user/${userId}`)
+          .ref(`app_users/${userId}`)
           .once("value");
         const userDetails = userDetailsSnapshot.val();
 
@@ -62,7 +62,7 @@ const LoginScreen = () => {
 
         // Check if the userID exists
         const userDetailsSnapshot = await dataRef
-          .ref(`user/${userId}`)
+          .ref(`app_users/${userId}`)
           .once("value");
 
         const userDetails = userDetailsSnapshot.val();

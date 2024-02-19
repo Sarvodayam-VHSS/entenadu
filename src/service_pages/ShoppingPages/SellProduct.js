@@ -146,7 +146,6 @@ const SellProduct = ({ route }) => {
     const uniqueId = generateUniqueId(product.name);
     const productPath = `market/${uniqueId}`;
     const imageRef = storage.child(productPath);
-    await imageRef.put(product.image);
 
     try {
       setLoading(true);
