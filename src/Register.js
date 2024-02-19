@@ -7,79 +7,91 @@ import {
   TouchableOpacity,
   ScrollView,
   Image,
+  ActivityIndicator,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { dataRef } from "../Firebase";
-import * as ImagePicker from 'expo-image-picker';
+import { dataRef, storage } from "../Firebase";
+import * as ImagePicker from "expo-image-picker";
 
 const Register = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [mobile, setMobile] = useState("");
+  const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
-  const [profileImage, setProfileImage] = useState(null); 
+  const [profileImage, setProfileImage] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const navigation = useNavigation();
 
   const handleRegister = async () => {
-    try {
-      if (name && email && mobile && password && confirmPassword) {
-        // Validate email format
-        const emailRegex = /\S+@\S+\.\S+/;
-        if (!emailRegex.test(email)) {
-          setError("Invalid email format");
-          return;
-        }
-
-        // Validate phone number format
-        const phoneRegex = /^\d{10}$/;
-        if (!phoneRegex.test(mobile)) {
-          setError("Invalid phone number format");
-          return;
-        }
-
-        if (password !== confirmPassword) {
-          setError("Passwords do not match");
-          return;
-        }
-
-        const formattedPhone = mobile.replace(/^0+|^\+91/g, "");
-        const userId = email.split("@")[0] + formattedPhone;
-
-        // Check if the userID already exists
-        const userExistsSnapshot = await dataRef
-          .ref(`user/${userId}`)
-          .once("value");
-
-        if (userExistsSnapshot.val()) {
-          setError("User with this email and mobile already exists");
-          return;
-        }
-
-        await dataRef.ref(`user/${userId}`).set({
-          name,
-          email,
-          mobile,
-          password,
-          profileImage, // Save the profile image URI in the database
-        });
-
-        await dataRef.ref(`user/${userId}`).set({
-          name,
-          email,
-          mobile,
-          password,
-        });
-
-        navigation.replace("Login");
-      } else {
-        setError("Please fill in all fields");
+    if (
+      name &&
+      email &&
+      phone &&
+      password &&
+      confirmPassword &&
+      profileImage
+    ) {
+      // Validate email format
+      const emailRegex = /\S+@\S+\.\S+/;
+      if (!emailRegex.test(email)) {
+        setError("Invalid email format");
+        return;
       }
-    } catch (error) {
-      console.error("Registration error:", error.message);
-      setError("Error during registration");
+
+      // Validate phone number format
+      const phoneRegex = /^\d{10}$/;
+      if (!phoneRegex.test(phone)) {
+        setError("Invalid phone number format");
+        return;
+      }
+
+      if (password !== confirmPassword) {
+        setError("Passwords do not match");
+        return;
+      }
+
+      const formattedPhone = phone.replace(/^0+|^\+91/g, "");
+      const userId = email.split("@")[0] + formattedPhone;
+
+      const profileImagePath = `app_profile_images/${userId}`;
+      const imageRef = storage.child(profileImagePath);
+
+      // Check if the userID already exists
+      const userExistsSnapshot = await dataRef
+        .ref(`app_users/${userId}`)
+        .once("value");
+
+      if (userExistsSnapshot.val()) {
+        setError("User with this email and phone already exists");
+        return;
+      }
+
+      try {
+        setLoading(true);
+        const response = await fetch(profileImage);
+        const blob = await response.blob();
+        await imageRef.put(blob);
+        const profileImageUrl = await imageRef.getDownloadURL();
+        console.log("url: " + imageUrl);
+        await dataRef.ref(`app_users/${userId}`).set({
+          name,
+          email,
+          phone,
+          password,
+          profileImageUrl,
+        });
+      } catch (error) {
+        console.error("Registration error:", error.message);
+        setError("Error during registration");
+      } finally {
+        setLoading(false);
+        navigation.replace("Login");
+      }
+    } else {
+      setError("Please fill in all fields");
     }
   };
   const handleImagePick = async () => {
@@ -88,11 +100,12 @@ const Register = () => {
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
         aspect: [1, 1],
-        quality: 1,
+        quality: 0.5,
       });
 
       if (!result.cancelled) {
-        setProfileImage(result.uri);
+        setProfileImage(result.assets[0].uri);
+        console.log("Image: " + result.assets[0].uri);
       }
     } catch (error) {
       console.error("Image picking error:", error.message);
@@ -109,7 +122,10 @@ const Register = () => {
         <TouchableOpacity onPress={handleImagePick}>
           <View style={styles.profileImageContainer}>
             {profileImage ? (
-              <Image source={{ uri: profileImage }} style={styles.profileImage} />
+              <Image
+                source={{ uri: profileImage }}
+                style={styles.profileImage}
+              />
             ) : (
               <Text style={styles.profileImageText}>Add Profile Picture</Text>
             )}
@@ -130,9 +146,9 @@ const Register = () => {
         />
         <TextInput
           style={styles.input}
-          placeholder="Mobile Number"
-          value={mobile}
-          onChangeText={setMobile}
+          placeholder="Phone Number"
+          value={phone}
+          onChangeText={setPhone}
           keyboardType="numeric"
         />
         <TextInput
@@ -152,8 +168,15 @@ const Register = () => {
         {error ? <Text style={styles.error}>{error}</Text> : null}
         <CustomButton title="Register" onPress={handleRegister} />
         <TouchableOpacity onPress={handleNavigateToLogin}>
-          <Text style={styles.newUserButton}>Already have an account? Login Here</Text>
+          <Text style={styles.newUserButton}>
+            Already have an account? Login Here
+          </Text>
         </TouchableOpacity>
+        {loading && (
+          <View style={styles.loadingContainer}>
+            <ActivityIndicator size="large" color="#3498DB" />
+          </View>
+        )}
       </ScrollView>
     </View>
   );
@@ -231,6 +254,17 @@ const styles = StyleSheet.create({
   profileImageText: {
     fontSize: 16,
     color: "#333",
+    marginLeft: 15,
+  },
+  loadingContainer: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(255, 255, 255, 0.7)",
   },
 });
 
