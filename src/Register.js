@@ -75,7 +75,6 @@ const Register = () => {
         const blob = await response.blob();
         await imageRef.put(blob);
         const profileImageUrl = await imageRef.getDownloadURL();
-        console.log("url: " + imageUrl);
         await dataRef.ref(`app_users/${userId}`).set({
           name,
           email,
@@ -105,7 +104,6 @@ const Register = () => {
 
       if (!result.cancelled) {
         setProfileImage(result.assets[0].uri);
-        console.log("Image: " + result.assets[0].uri);
       }
     } catch (error) {
       console.error("Image picking error:", error.message);
