@@ -10,8 +10,6 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import { Linking } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
-
 import { dataRef } from "../Firebase";
 
 const LoginScreen = () => {
@@ -36,7 +34,7 @@ const LoginScreen = () => {
         const userDetails = userDetailsSnapshot.val();
 
         if (userDetails) {
-          navigation.replace("Home", { userDetails, userId });
+          navigation.replace("HomeScreen", { userDetails, userId });
         }
       }
     } catch (error) {
@@ -55,10 +53,7 @@ const LoginScreen = () => {
 
       if (email && mobile && password) {
         const formattedPhone = mobile.replace(/^0+|^\+91/g, "");
-        console.log("Formated Phone: " + formattedPhone);
-
         const userId = email.split("@")[0] + formattedPhone;
-        console.log("userID: " + userId);
 
         // Check if the userID exists
         const userDetailsSnapshot = await dataRef
@@ -66,13 +61,11 @@ const LoginScreen = () => {
           .once("value");
 
         const userDetails = userDetailsSnapshot.val();
-        console.log(userDetails);
-
         if (userDetails && userDetails.password === password) {
           // Save userId in AsyncStorage -token
           await AsyncStorage.setItem("userId", userId);
 
-          navigation.replace("Home", { userDetails, userId });
+          navigation.replace("HomeScreen", { userDetails, userId });
         } else {
           setError("Invalid email, mobile, or password");
         }
@@ -90,7 +83,6 @@ const LoginScreen = () => {
   const handleNavigateToRegistration = () => {
     navigation.navigate("Register"); 
   };
-  
 
   return (
     <View style={styles.container}>
@@ -161,7 +153,6 @@ const styles = StyleSheet.create({
     color:  'red',
     padding: 20,
     fontSize: 16,
-    
   },
   container: {
     flexGrow: 1,

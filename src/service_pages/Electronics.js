@@ -1,24 +1,51 @@
-import React from 'react';
-import { View, Text, TouchableOpacity, FlatList, StyleSheet, Image } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import React from "react";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  FlatList,
+  StyleSheet,
+  Image,
+} from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 const Electronics = () => {
   const navigation = useNavigation();
 
   const gridItems = [
-    { label: 'TV', image: require('./../../assets/television.png'), value: 'Tv And Electronics' },
-    { label: 'CCTV', image: require('./../../assets/cctv-camera.png'), value: 'CCTV' },
-    { label: 'Computer', image: require('./../../assets/computer.png'), value: 'Computer' },
-    { label: 'Mobile', image: require('./../../assets/smartphone.png'), value: 'Mobile' },
-    { label: 'Ac/Fridge', image: require('./../../assets/acfridge-removebg-preview.png'), value: 'Ac / Fridge' },
+    {
+      label: "TV",
+      image: require("./../../assets/television.png"),
+      value: "Tv And Electronics",
+    },
+    {
+      label: "CCTV",
+      image: require("./../../assets/cctv-camera.png"),
+      value: "CCTV",
+    },
+    {
+      label: "Computer",
+      image: require("./../../assets/computer.png"),
+      value: "Computer",
+    },
+    {
+      label: "Mobile",
+      image: require("./../../assets/smartphone.png"),
+      value: "Mobile",
+    },
+    {
+      label: "Ac/Fridge",
+      image: require("./../../assets/acfridge-removebg-preview.png"),
+      value: "Ac / Fridge",
+    },
   ];
 
   const handleSelect = (item) => {
-    navigation.navigate('UsersList', { skillSector: item.value });
+    navigation.navigate("UsersList", { skillSector: item.value });
   };
 
   const renderGridItem = ({ item }) => {
-    const isAcFridge = item.value === 'acFridge';
+    const isAcFridge = item.value === "acFridge";
 
     return (
       <TouchableOpacity
@@ -50,7 +77,7 @@ const Electronics = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#ecf0f1',
+    backgroundColor: "#ecf0f1",
     padding: 20,
   },
   grid: {
@@ -58,9 +85,9 @@ const styles = StyleSheet.create({
   },
   gridItem: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#fff',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#fff",
     padding: 20,
     margin: 10,
     borderRadius: 10,

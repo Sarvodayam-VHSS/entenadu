@@ -69,7 +69,7 @@ const UsersProfile = ({ route }) => {
             source={{
               uri:
                 userInfo.profileImageUrl ||
-                "https://api.adorable.io/avatars/285/avatar.png",
+                "./../../assets/nouser.png",
             }}
             size={90}
             style={styles.avatar}

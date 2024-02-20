@@ -93,6 +93,7 @@ const Register = () => {
       setError("Please fill in all fields");
     }
   };
+
   const handleImagePick = async () => {
     try {
       const result = await ImagePicker.launchImageLibraryAsync({
@@ -109,6 +110,7 @@ const Register = () => {
       console.error("Image picking error:", error.message);
     }
   };
+  
   const handleNavigateToLogin = () => {
     navigation.replace("Login");
   };

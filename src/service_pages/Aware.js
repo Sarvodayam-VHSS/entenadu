@@ -2,8 +2,6 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
 const Aware = () => {
-  // Aware component logic here
-
   return (
     <View style={styles.container}>
       <Text style={styles.comingSoonText}>Coming Soon!</Text>

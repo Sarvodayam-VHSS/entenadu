@@ -69,7 +69,7 @@ const EditProduct = ({ route }) => {
       <ScrollView>
         <View style={styles.imageGallery}>
           <Image
-            source={{ uri: product?.imageUrl }}
+            source={{ uri: product?.image }}
             style={styles.galleryImage}
           />
         </View>
@@ -156,7 +156,7 @@ const getColorByAvailability = (availability) => {
     case "Unavailable":
       return "red";
     default:
-      return "#000000"; // default color
+      return "#000000";
   }
 };
 
@@ -218,8 +218,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   multilineInput: {
-    height: 100, // Adjust the height for multiline input
-    textAlignVertical: "top", // Place the cursor at the top
+    height: 100,
+    textAlignVertical: "top",
   },
   fieldLabel: {
     fontSize: 16,

@@ -17,12 +17,12 @@ const Shopping = ({ route }) => {
     {
       label: "Buy",
       image: require("./../../../assets/shopping-bag.png"),
-      value: "buy",
+      value: "ShoppingList",
     },
     {
       label: "Sell",
       image: require("./../../../assets/selling.png"),
-      value: "sell",
+      value: "SellProduct",
     },
     {
       label: "My Products",
@@ -32,13 +32,7 @@ const Shopping = ({ route }) => {
   ];
 
   const handleSelect = (item) => {
-    if (item.value === "buy") {
-      navigation.navigate("ShoppingList", { userId: userId });
-    } else if (item.value === "sell") {
-      navigation.navigate("SellProduct", { userId: userId });
-    }else if (item.value === "MyProduct") {
-      navigation.navigate("MyProduct", { userId: userId });
-    }
+      navigation.navigate(item.value, { userId: userId });
   };
 
   const renderGridItem = ({ item }) => (

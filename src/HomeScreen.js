@@ -30,8 +30,8 @@ const HomeScreen = ({ route }) => {
     { label: "To-Do List", value: "ToDoList" },
     { label: "Reminders", value: "Reminders" },
     { label: "Family Budget", value: "Budget" },
-    { label: "About Us", value: "Aboutus" },
-    { label: "Contact", value: "contact" },
+    { label: "About Us", value: "AboutUs" },
+    { label: "Contact", value: "Contact" },
     { label: "Signout", value: "handleLogout" },
   ];
 
@@ -39,47 +39,47 @@ const HomeScreen = ({ route }) => {
     {
       label: "Home",
       image: require("./../assets/house.png"),
-      value: "homeServ",
+      value: "Home",
     },
     {
       label: "Electronics",
       image: require("./../assets/responsive.png"),
-      value: "electronics",
+      value: "Electronics",
     },
     {
       label: "Vehicle",
       image: require("./../assets/vehicles.png"),
-      value: "vehicle",
+      value: "Vehicle",
     },
     {
       label: "Shopping",
       image: require("./../assets/shopping-cart.png"),
-      value: "shopping",
+      value: "Shopping",
     },
     {
       label: "Professional",
       image: require("./../assets/professionals.png"),
-      value: "professional",
+      value: "Professional",
     },
     {
       label: "Aware",
       image: require("./../assets/public-relation.png"),
-      value: "aware",
+      value: "Aware",
     },
     {
       label: "Counselling",
       image: require("./../assets/conversation.png"),
-      value: "counselling",
+      value: "Counselling",
     },
     {
       label: "Agri/Vet",
       image: require("./../assets/vetagri1.png"),
-      value: "agric",
+      value: "Agriculture",
     },
     {
       label: "Others",
       image: require("./../assets/more.png"),
-      value: "others",
+      value: "Others",
     },
   ];
 
@@ -146,7 +146,7 @@ const HomeScreen = ({ route }) => {
               source={{
                 uri:
                   userDetails.profileImageUrl ||
-                  "https://api.adorable.io/avatars/80/abott@adorable.png",
+                  "./../assets/nouser.png",
               }}
               size={80}
               style={styles.avatar}

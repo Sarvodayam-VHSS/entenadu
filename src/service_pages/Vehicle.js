@@ -1,20 +1,43 @@
-import React from 'react';
-import { View, Text, TouchableOpacity, FlatList, StyleSheet, Image } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import React from "react";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  FlatList,
+  StyleSheet,
+  Image,
+} from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 const Vehicle = () => {
   const navigation = useNavigation();
 
   const gridItems = [
-    { label: 'Three Wheeler', image: require('./../../assets/tuk-tuk.png'), value: 'Three-Wheeler' },
-    { label: 'Car', image: require('./../../assets/3d-car.png'), value: 'Car' },
-    { label: 'Ambulance', image: require('./../../assets/ambulance.png'),value: 'Ambulance'},
-    { label: 'Petti Auto', image: require('./../../assets/mini-truck.png'),value: 'Petti Auto'},
-    { label: 'Tipper', image: require('./../../assets/dump-truck.png'),value: 'Tipper'},
+    {
+      label: "Three Wheeler",
+      image: require("./../../assets/tuk-tuk.png"),
+      value: "Three-Wheeler",
+    },
+    { label: "Car", image: require("./../../assets/3d-car.png"), value: "Car" },
+    {
+      label: "Ambulance",
+      image: require("./../../assets/ambulance.png"),
+      value: "Ambulance",
+    },
+    {
+      label: "Petti Auto",
+      image: require("./../../assets/mini-truck.png"),
+      value: "Petti Auto",
+    },
+    {
+      label: "Tipper",
+      image: require("./../../assets/dump-truck.png"),
+      value: "Tipper",
+    },
   ];
 
   const handleSelect = (item) => {
-    navigation.navigate('UsersList', { skillSector: item.value });
+    navigation.navigate("UsersList", { skillSector: item.value });
   };
 
   const renderGridItem = ({ item }) => (
@@ -43,7 +66,7 @@ const Vehicle = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#ecf0f1',
+    backgroundColor: "#ecf0f1",
     padding: 20,
   },
   grid: {
@@ -51,9 +74,9 @@ const styles = StyleSheet.create({
   },
   gridItem: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#fff',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#fff",
     padding: 20,
     margin: 10,
     borderRadius: 10,

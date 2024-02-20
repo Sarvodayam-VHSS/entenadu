@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { SafeAreaView, ScrollView, StyleSheet, View, TouchableOpacity, Image } from 'react-native';
+import { SafeAreaView, ScrollView, StyleSheet, View, TouchableOpacity} from 'react-native';
 import { Avatar, Title, Card } from 'react-native-paper';
 import * as ImagePicker from 'expo-image-picker';
 import ProfileItem from './ProfileItem'; 
@@ -58,7 +58,7 @@ const MyProfile = ({ route }) => {
         <View style={styles.userInfoSection}>
         <TouchableOpacity onPress={handleChooseImage}>
             <Avatar.Image 
-              source={{ uri: userInfo?.profileImageUrl || 'https://api.adorable.io/avatars/80/abott@adorable.png' }}
+              source={{ uri: userInfo?.profileImageUrl || './../../assets/nouser.png' }}
               size={100}
               style={{ backgroundColor: '#f4f4f4' }}
             />

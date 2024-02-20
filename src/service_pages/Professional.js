@@ -1,18 +1,37 @@
-import React from 'react';
-import { View, Text, TouchableOpacity, FlatList, StyleSheet, Image } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import React from "react";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  FlatList,
+  StyleSheet,
+  Image,
+} from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 const Vehicle = () => {
   const navigation = useNavigation();
 
   const gridItems = [
-    { label: 'Lawyer', image: require('./../../assets/lawyer.png'), value: 'Lawyer' },
-    { label: 'Medical', image: require('./../../assets/medical-team.png'), value: 'Medical' },
-    { label: 'Insurance', image: require('./../../assets/health-insurance.png'),value: 'Insurance'},
+    {
+      label: "Lawyer",
+      image: require("./../../assets/lawyer.png"),
+      value: "Lawyer",
+    },
+    {
+      label: "Medical",
+      image: require("./../../assets/medical-team.png"),
+      value: "Medical",
+    },
+    {
+      label: "Insurance",
+      image: require("./../../assets/health-insurance.png"),
+      value: "Insurance",
+    },
   ];
 
   const handleSelect = (item) => {
-    navigation.navigate('UsersList', { skillSector: item.value });
+    navigation.navigate("UsersList", { skillSector: item.value });
   };
 
   const renderGridItem = ({ item }) => (
@@ -41,7 +60,7 @@ const Vehicle = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#ecf0f1',
+    backgroundColor: "#ecf0f1",
     padding: 20,
   },
   grid: {
@@ -49,9 +68,9 @@ const styles = StyleSheet.create({
   },
   gridItem: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#fff',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#fff",
     padding: 20,
     margin: 10,
     borderRadius: 10,

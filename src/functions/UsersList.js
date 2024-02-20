@@ -45,7 +45,6 @@ const UsersList = ({ route, navigation }) => {
           );
           user.age = age;
         }
-
         setUsers(usersArray);
       }
     };
@@ -66,7 +65,10 @@ const UsersList = ({ route, navigation }) => {
       style={styles.card}
       onPress={() => handleCardPress(item.userID)}
     >
-      <Image source={{ uri: item.profileImageUrl }} style={styles.profileImage} />
+      <Image
+        source={{ uri: item.profileImageUrl || "./../../assets/nouser.png" }}
+        style={styles.profileImage}
+      />
       <View style={styles.userInfo}>
         <Text style={styles.boldText}>Name: {item.name}</Text>
         <Text style={styles.boldText}>Age: {item.age}</Text>

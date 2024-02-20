@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Image, ActivityIndicator, StyleSheet } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 import { API_QUOTE } from "@env";
 
 const LoadingScreen = () => {
-  const navigation = useNavigation();
   const [isLoading, setIsLoading] = useState(true);
   const [quote, setQuote] = useState('');
 
