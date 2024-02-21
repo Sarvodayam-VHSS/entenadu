@@ -11,7 +11,7 @@ import { useNavigation } from "@react-navigation/native";
 
 const Shopping = ({ route }) => {
   const navigation = useNavigation();
-  const { userId } = route.params;
+  const { userDetails } = route.params;
 
   const gridItems = [
     {
@@ -32,7 +32,7 @@ const Shopping = ({ route }) => {
   ];
 
   const handleSelect = (item) => {
-      navigation.navigate(item.value, { userId: userId });
+    navigation.navigate(item.value, { userDetails: userDetails });
   };
 
   const renderGridItem = ({ item }) => (
