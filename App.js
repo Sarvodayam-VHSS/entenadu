@@ -19,7 +19,7 @@ import Others from "./src/service_pages/Others";
 import Professional from "./src/service_pages/Professional";
 import Vehicle from "./src/service_pages/Vehicle";
 
-import AboutUs from "./src/features/AboutUs";
+import AboutUs from "./src/features/Aboutus";
 import Budget from "./src/features/Budget";
 import Contact from "./src/features/Contact";
 import Reminders from "./src/features/Reminders";

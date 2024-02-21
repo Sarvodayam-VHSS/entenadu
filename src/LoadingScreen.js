@@ -33,7 +33,7 @@ const LoadingScreen = () => {
       <View style={styles.contentContainer}>
         <Text style={styles.welcomeText}>Welcome</Text>
         <Image
-          source={require('../assets/favicon.png')}
+          source={require('../assets/newlogo.png')}
           style={styles.logo}
           resizeMode="contain"
         />
