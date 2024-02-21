@@ -81,6 +81,7 @@ const Register = () => {
           phone,
           password,
           profileImageUrl,
+          userId,
         });
       } catch (error) {
         console.error("Registration error:", error.message);
