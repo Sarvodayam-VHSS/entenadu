@@ -6,9 +6,11 @@ import {
   TouchableOpacity,
   StyleSheet,
   ScrollView,
+  ActivityIndicator,
 } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { Linking } from "react-native";
+import Toast from "react-native-toast-message";
 import emailjs from "emailjs-com";
 import {
   EMAIL_JS_SERVICE_ID,
@@ -18,9 +20,23 @@ import {
 
 const Contact = ({ route }) => {
   const { userDetails } = route.params;
+  const [name, setName] = useState(userDetails.name);
+  const [email, setEmail] = useState(userDetails.email);
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const showToast = (msgType, message) => {
+    Toast.show({
+      type: msgType,
+      text1: message,
+      visibilityTime: 3000,
+      autoHide: true,
+    });
+  };
 
   const sendContactForm = () => {
+    setLoading(true);
+
     const emailJsConfig = {
       service_id: EMAIL_JS_SERVICE_ID,
       template_id: EMAIL_JS_TEMPLATE_ID,
@@ -40,12 +56,22 @@ const Contact = ({ route }) => {
         formTemplate,
         emailJsConfig.user_id
       )
-      .then((response) => {
-        console.log("Email sent successfully:", response);
+      .then(() => {
+        showToast(
+          "success",
+          "Your response submitted successfully!"
+        );
       })
       .catch((error) => {
         console.error("Email failed to send:", error);
-      });
+        showToast(
+          "error",
+          "Failed to sumbmit your response!"
+        );
+      })
+      .finally(() => {
+        setLoading(false)
+      })
   };
 
   const socials = [
@@ -89,6 +115,19 @@ const Contact = ({ route }) => {
       <View style={styles.formContainer}>
         <Text style={styles.headerText}>GET IN TOUCH!</Text>
         <View style={styles.form}>
+        <TextInput
+            placeholder="Name"
+            value={name}
+            editable={false}
+            style={styles.input}
+          />
+          <TextInput
+            placeholder="E-mail"
+            value={email}
+            editable={false}
+            style={styles.input}
+            keyboardType="email-address"
+          />
           <TextInput
             placeholder="Message"
             value={message}
@@ -117,6 +156,11 @@ const Contact = ({ route }) => {
           </TouchableOpacity>
         ))}
       </View>
+      {loading && (
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color="#007bff" />
+        </View>
+      )}
     </ScrollView>
   );
 };
@@ -195,6 +239,16 @@ const styles = StyleSheet.create({
   },
   icon: {
     margin: 10,
+  },
+  loadingContainer: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(255, 255, 255, 0.7)",
   },
 });
 
