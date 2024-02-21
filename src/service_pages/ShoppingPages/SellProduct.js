@@ -17,7 +17,7 @@ import Toast from "react-native-toast-message";
 import { dataRef, storage } from "../../../Firebase";
 
 const SellProduct = ({ route }) => {
-  const { userId } = route.params;
+  const { userDetails } = route.params;
   const [product, setProduct] = useState({
     name: "",
     description: "",
@@ -126,7 +126,7 @@ const SellProduct = ({ route }) => {
   };
 
   const generateUniqueId = (name) => {
-    return `${userId}_${name.toLowerCase().replace(/\s+/g, "_")}`;
+    return `${userDetails.userId}_${name.toLowerCase().replace(/\s+/g, "_")}`;
   };
 
   const handleAddProduct = async () => {
@@ -152,20 +152,14 @@ const SellProduct = ({ route }) => {
       const response = await fetch(product.image);
       const blob = await response.blob();
       await imageRef.put(blob);
-
       const imageUrl = await imageRef.getDownloadURL();
-      const userSnapshot = await dataRef
-        .ref(`registrations/${userId}`)
-        .once("value");
-      const userName = userSnapshot.val().name;
-      const userPhone = userSnapshot.val().phone;
 
       await dataRef.ref(productPath).set({
         ...product,
         image: imageUrl,
-        seller: userName,
-        phone: userPhone,
-        userId: userId,
+        seller: userDetails.name,
+        phone: userDetails.phone,
+        userId: userDetails.userId,
       });
 
       setProduct({
