@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+import { SafeAreaView, StatusBar } from 'react-native';
 import Toast from "react-native-toast-message";
 
 import LoadingScreen from "./src/LoadingScreen";
@@ -55,6 +56,11 @@ const App = () => {
   };
 
   return (
+    <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
+    <StatusBar
+      backgroundColor="white"
+      barStyle="dark-content"
+    />
     <>
       <NavigationContainer>
         <Stack.Navigator>
@@ -116,6 +122,7 @@ const App = () => {
       </NavigationContainer>
       <Toast />
     </>
+    </SafeAreaView>
   );
 };
 
