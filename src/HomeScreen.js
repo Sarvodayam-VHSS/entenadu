@@ -196,7 +196,7 @@ const HomeScreen = ({ route }) => {
                 item.label !== "Professional" &&
                 styles.generalGridItem,
             ]}
-            onPress={() => navigation.navigate(item.value, { userId: userId })}
+            onPress={() => navigation.navigate(item.value, { userId: userId, userDetails: userDetails })}
           >
             <Image source={item.image} style={styles.gridImage} />
             <Text style={styles.gridLabel}>{item.label}</Text>

@@ -17,7 +17,7 @@ const cardWidth = (width - 32) / 2;
 const MyProduct = ({ route }) => {
   const [products, setProducts] = useState([]);
   const navigation = useNavigation();
-  const { userId } = route.params;
+  const { userDetails } = route.params;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -33,7 +33,7 @@ const MyProduct = ({ route }) => {
             })
           );
           const filteredProducts = productsArray.filter(
-            (product) => product.userId === userId
+            (product) => product.userId === userDetails.userId
           );
 
           setProducts(filteredProducts);
@@ -44,7 +44,7 @@ const MyProduct = ({ route }) => {
     };
 
     fetchData();
-  }, [userId]);
+  }, [userDetails.userId]);
 
   const truncatedName = (name, maxLength) => {
     if (name.length > maxLength) {
@@ -54,15 +54,15 @@ const MyProduct = ({ route }) => {
   };
 
   const handleSelect = (id) => {
-    navigation.navigate("EditProduct", { productId: id });
+    navigation.navigate("EditProduct", {
+      productId: id,
+      userDetails: userDetails,
+    });
   };
 
   const renderItem = ({ item }) => (
     <TouchableOpacity onPress={() => handleSelect(item.id)} style={styles.tile}>
-      <Image
-        source={{ uri: item.image }}
-        style={styles.tileImage}
-      />
+      <Image source={{ uri: item.image }} style={styles.tileImage} />
       <View style={styles.tileContent}>
         <Text style={styles.tileName}>{truncatedName(item.name, 40)}</Text>
         <View style={styles.amountContainer}>
