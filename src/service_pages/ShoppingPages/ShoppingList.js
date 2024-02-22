@@ -7,6 +7,7 @@ import {
   Dimensions,
   TouchableOpacity,
   FlatList,
+  ActivityIndicator,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { dataRef } from "../../../Firebase";
@@ -16,6 +17,7 @@ const cardWidth = (width - 32) / 2;
 
 const ShoppingList = () => {
   const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -35,6 +37,8 @@ const ShoppingList = () => {
         }
       } catch (error) {
         console.error("Error fetching products:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -68,17 +72,52 @@ const ShoppingList = () => {
   );
 
   return (
-    <FlatList
-      data={products}
-      numColumns={2}
-      showsHorizontalScrollIndicator={false}
-      renderItem={renderItem}
-      keyExtractor={(item) => item.id}
-    />
+    <View style={styles.container}>
+      {loading ? (
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color="#009933" />
+        </View>
+      ) : products.length === 0 ? (
+        <View style={styles.windowMsgContainer}>
+          <Text style={styles.windowMsgText}>No products found.</Text>
+        </View>
+      ) : (
+        <FlatList
+          data={products}
+          numColumns={2}
+          showsHorizontalScrollIndicator={false}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.id}
+        />
+      )}
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 16,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  windowMsgContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#f0f3f5",
+    borderRadius: 8,
+    padding: 16,
+  },
+  windowMsgText: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#555",
+    textAlign: "center",
+  },
   tile: {
     width: cardWidth,
     height: 220,

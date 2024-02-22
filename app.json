@@ -4,10 +4,10 @@
     "slug": "entenadu",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/newicon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/newlogo.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -19,7 +19,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/newicon.png",
         "backgroundColor": "#ffffff",
         "permissions": [
           "CAMERA",
@@ -27,14 +27,14 @@
           "WRITE_EXTERNAL_STORAGE"
         ]
       },
-      "package": "com.psabhishek26.entenadu"
+      "package": "com.sarvodayam.entenadu"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/newlogo.png"
     },
     "extra": {
       "eas": {
-        "projectId": "8a88fc86-ae69-4ef2-a3e4-ed26a6fa4f4e"
+        "projectId": "3e8fe3c5-2e16-43bf-af17-225731d68f43"
       }
     }
   }
