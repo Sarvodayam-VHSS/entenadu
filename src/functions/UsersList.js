@@ -5,6 +5,7 @@ import {
   FlatList,
   Image,
   StyleSheet,
+  ActivityIndicator,
   TouchableOpacity,
 } from "react-native";
 import {
@@ -19,6 +20,7 @@ import { dataRef } from "../../Firebase";
 const UsersList = ({ route, navigation }) => {
   const [users, setUsers] = useState([]);
   const { skillSector } = route.params;
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const usersRef = dataRef.ref("registrations/");
@@ -31,6 +33,8 @@ const UsersList = ({ route, navigation }) => {
     );
 
     const handleData = async (snapshot) => {
+      setLoading(false);
+
       if (snapshot.exists()) {
         const usersData = snapshot.val();
         const usersArray = Object.values(usersData);
@@ -78,11 +82,23 @@ const UsersList = ({ route, navigation }) => {
 
   return (
     <View style={styles.container}>
-      <FlatList
-        data={users}
-        renderItem={renderUserCard}
-        keyExtractor={(item, index) => index.toString()}
-      />
+      {loading ? (
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color="#009933" />
+        </View>
+      ) : users.length === 0 ? (
+        <View style={styles.windowMsgContainer}>
+          <Text style={styles.windowMsgText}>
+            No {skillSector} workers found in your area.
+          </Text>
+        </View>
+      ) : (
+        <FlatList
+          data={users}
+          renderItem={renderUserCard}
+          keyExtractor={(item, index) => index.toString()}
+        />
+      )}
     </View>
   );
 };
@@ -101,6 +117,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#ddd",
     elevation: 1,
+    backgroundColor: "#fff",
   },
   profileImage: {
     width: 50,
@@ -113,6 +130,25 @@ const styles = StyleSheet.create({
   },
   boldText: {
     fontWeight: "bold",
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  windowMsgContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#f0f3f5",
+    borderRadius: 8,
+    padding: 16,
+  },
+  windowMsgText: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#555",
+    textAlign: "center",
   },
 });
 
