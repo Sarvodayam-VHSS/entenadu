@@ -44,8 +44,8 @@ const Contact = ({ route }) => {
     };
 
     const formTemplate = {
-      from_name: userDetails.name,
-      from_email: userDetails.email,
+      from_name: name,
+      from_email: email,
       message: message,
     };
 
@@ -61,6 +61,7 @@ const Contact = ({ route }) => {
           "success",
           "Your response submitted successfully!"
         );
+        setMessage("");
       })
       .catch((error) => {
         console.error("Email failed to send:", error);
