@@ -102,7 +102,6 @@ const MyProduct = ({ route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
   },
   loadingContainer: {
     flex: 1,
