@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef , useEffect} from "react";
 import {
   View,
   Text,
@@ -13,6 +13,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import { Avatar } from "react-native-paper";
+import { dataRef } from "../Firebase";
 
 const HomeScreen = ({ route }) => {
   const [isMenuVisible, setIsMenuVisible] = useState(false);
@@ -20,7 +21,20 @@ const HomeScreen = ({ route }) => {
     useState(false);
   const menuAnimation = useRef(new Animated.Value(-300)).current;
   const navigation = useNavigation();
-  const { userDetails, userId } = route.params;
+  const { userId } = route.params;
+
+  const [userDetails, setUserDetails] = useState(route.params.userDetails);
+
+  useEffect(() => {
+    const userRef = dataRef.ref(`app_users/${userId}`);
+    
+    const listener = userRef.on('value', (snapshot) => {
+      const updatedUserDetails = snapshot.val();
+      setUserDetails(updatedUserDetails);
+    });
+
+    return () => userRef.off('value', listener);
+  }, [userId]);
 
   const closeMenu = () => {
     slideMenuOut();
@@ -139,7 +153,7 @@ const HomeScreen = ({ route }) => {
       >
         <View style={styles.user}>
           <TouchableOpacity
-            onPress={() => navigation.navigate("MyProfile", { userId })}
+            onPress={() => navigation.navigate("MyProfile", { userDetails })}
             style={{ flexDirection: "row", alignItems: "center" }}
           >
             <Avatar.Image
