@@ -47,7 +47,6 @@ const App = () => {
     }, 3000);
 
     return () => {
-      // Cleanup logic here
     };
   }, []);
 
