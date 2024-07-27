@@ -14,11 +14,12 @@ import HomeScreen from "./src/HomeScreen";
 import Home from "./src/service_pages/Home";
 import Agriculture from "./src/service_pages/Agriculture";
 import Aware from "./src/service_pages/Aware";
-import Counselling from "./src/service_pages/Counselling";
+import Counselling from "./src/service_pages/Classroom";
 import Electronics from "./src/service_pages/Electronics";
 import Others from "./src/service_pages/Others";
 import Professional from "./src/service_pages/Professional";
 import Vehicle from "./src/service_pages/Vehicle";
+import Classroom from "./src/service_pages/Classroom";
 
 import AboutUs from "./src/features/Aboutus";
 import Budget from "./src/features/Budget";
@@ -81,6 +82,7 @@ const App = () => {
               <Stack.Screen name="Others" component={Others} />
               <Stack.Screen name="Professional" component={Professional} />
               <Stack.Screen name="Vehicle" component={Vehicle} />
+              <Stack.Screen name="Classroom" component={Classroom} />
 
               <Stack.Screen name="AboutUs" component={AboutUs} />
               <Stack.Screen name="Budget" component={Budget} />

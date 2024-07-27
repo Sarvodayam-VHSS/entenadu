@@ -178,7 +178,7 @@ const HomeScreen = ({ route }) => {
     { label: "Shopping", image: require("./../assets/shopping-cart.png"), value: "Shopping" },
     { label: "Professional", image: require("./../assets/professionals.png"), value: "Professional" },
     { label: "Aware", image: require("./../assets/public-relation.png"), value: "Aware" },
-    { label: "Counselling", image: require("./../assets/conversation.png"), value: "Counselling" },
+    { label: "Classroom", image: require("./../assets/person-chalkboard-solid.png"), value: "Classroom" },
     { label: "Agri/Vet", image: require("./../assets/vetagri1.png"), value: "Agriculture" },
     { label: "Others", image: require("./../assets/more.png"), value: "Others" },
   ];
