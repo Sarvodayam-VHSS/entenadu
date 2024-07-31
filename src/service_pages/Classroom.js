@@ -5,9 +5,11 @@ import {
   Text,
   StyleSheet,
   FlatList,
+  Linking,
   Dimensions,
 } from "react-native";
 import { dataRef } from "../../Firebase";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 const Classroom = () => {
   const [data, setData] = useState([]);
@@ -32,14 +34,20 @@ const Classroom = () => {
     fetchData();
   }, []);
 
+  const handleLink = (url) => {
+    Linking.openURL(url);
+  };
+
   const GridItem = ({ item }) => {
     return (
-      <View style={styles.gridItem}>
+      <TouchableOpacity onPress={() => handleLink(item.videoUrl)}>
+        <View style={styles.gridItem}>
           <Image source={{ uri: item.thumbnail }} style={styles.image} />
           <View style={styles.captionBox}>
             <Text style={styles.caption}>{item.description}</Text>
           </View>
         </View>
+      </TouchableOpacity>
     );
   };
 
@@ -47,9 +55,7 @@ const Classroom = () => {
     <FlatList
       data={data}
       keyExtractor={(item) => item.id}
-      renderItem={({ item }) => (
-        <GridItem item={item} />
-      )}
+      renderItem={({ item }) => <GridItem item={item} />}
     />
   );
 };

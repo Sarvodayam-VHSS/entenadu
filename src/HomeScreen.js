@@ -172,15 +172,15 @@ const HomeScreen = ({ route }) => {
   };
 
   const gridItems = [
-    { label: "Home", image: require("./../assets/house.png"), value: "Home" },
-    { label: "Electronics", image: require("./../assets/responsive.png"), value: "Electronics" },
-    { label: "Vehicle", image: require("./../assets/vehicles.png"), value: "Vehicle" },
-    { label: "Shopping", image: require("./../assets/shopping-cart.png"), value: "Shopping" },
-    { label: "Professional", image: require("./../assets/professionals.png"), value: "Professional" },
-    { label: "Aware", image: require("./../assets/public-relation.png"), value: "Aware" },
-    { label: "Classroom", image: require("./../assets/person-chalkboard-solid.png"), value: "Classroom" },
-    { label: "Agri/Vet", image: require("./../assets/vetagri1.png"), value: "Agriculture" },
-    { label: "Others", image: require("./../assets/more.png"), value: "Others" },
+    { label: "Home", image: require("./../assets/house.png"), value: "Home", avilable: true },
+    { label: "Electronics", image: require("./../assets/responsive.png"), value: "Electronics", available: true },
+    { label: "Vehicle", image: require("./../assets/vehicles.png"), value: "Vehicle", available: true },
+    { label: "Shopping", image: require("./../assets/shopping-cart.png"), value: "Shopping", available: true },
+    { label: "Professional", image: require("./../assets/professionals.png"), value: "Professional", available: true },
+    { label: "Classroom", image: require("./../assets/person-chalkboard-solid.png"), value: "Classroom", available: true },
+    { label: "Aware", image: require("./../assets/public-relation.png"), value: "Aware", available: false },
+    { label: "Agri/Vet", image: require("./../assets/vetagri1.png"), value: "Agriculture", available: false },
+    { label: "Others", image: require("./../assets/more.png"), value: "Others", available: false },
   ];
 
   return (
@@ -216,7 +216,7 @@ const HomeScreen = ({ route }) => {
       <FlatList
         data={gridItems}
         renderItem={({ item }) => (
-          <TouchableOpacity style={[styles.gridItem, item.label !== "Home" && item.label !== "Electronics" && item.label !== "Vehicle" && item.label !== "Shopping" && item.label !== "Professional" && styles.generalGridItem]} onPress={() => navigation.navigate(item.value, { userId: userId, userDetails: userDetails })}>
+          <TouchableOpacity style={[styles.gridItem, item.available && styles.generalGridItem]} onPress={() => navigation.navigate(item.value, { userId: userId, userDetails: userDetails })}>
             <Image source={item.image} style={styles.gridImage} />
             <Text style={styles.gridLabel}>{item.label}</Text>
           </TouchableOpacity>
